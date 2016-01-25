@@ -1,30 +1,51 @@
 """
 @Author: Rossi
-2016-01-24
+2016-01-25
 """
 from weiboapi.util import util
 from . import para
-import requests
-from urllib import urlencode
-session = requests.Session()
+try:
+    from urllib import urlencode
+except:
+    from urllib.parse import urlencode
+
+try:
+    import urllib2 as request
+except:
+    import urllib.request as request
+
+try:
+    from cookielib import LWPCookieJar
+except:
+    from http.cookiejar import LWPCookieJar
+import traceback
+
+
+cj = LWPCookieJar()
+cookie_support = request.HTTPCookieProcessor(cj)
+opener = request.build_opener(cookie_support, request.HTTPHandler)
+request.install_opener(opener)
 
 
 def handle_prelogin_request(username):
     """
     """
-    username = util.quote_base64_encode(username)
-    st = util.get_systemtime()
-    url = para.prelogin_url % (username, st)
-    r = session.get(url)
-    if util.check_status(r):
-        return r.text
-    else:
+    try:
+        username = util.quote_base64_encode(username)
+        st = util.get_systemtime()
+        url = para.prelogin_url % (username, st)
+        data = request.urlopen(url).read()
+        return util.decode(data)
+    except:
         return None
 
 
 def handle_session_request():
-    r = requests.get(para.session_url)
-    return util.check_status(r)
+    try:
+        request.urlopen(para.session_url).read()
+        return True
+    except:
+        return False
 
 
 def handle_login_request(username, password):
@@ -32,17 +53,51 @@ def handle_login_request(username, password):
         password, para.servertime, para.nonce,
         para.publickey, para.rsakv
     )
-    para.request_body['sp'] = str(psw, 'utf-8')
+    para.request_body['sp'] = psw
     para.request_body['su'] = util.base64_encode(username)
     para.request_body['rsakv'] = para.rsakv
     para.request_body['nonce'] = para.nonce
     para.request_body['servertime'] = str(para.servertime)
     postdata = urlencode(para.request_body)
+    postdata = bytearray(postdata, "utf-8")
     para.headers['Referer'] = 'http://weibo.com'
-    r = session.post(para.login_url, postdata, headers=para.headers)
-    if not util.check_status(r):
-        return False 
-    else:
-        return r.text
+    req = request.Request(
+        url=para.login_url,
+        data=postdata,
+        headers=para.headers
+    )
+    try:
+        data = request.urlopen(req).read()
+        return util.decode(data, "gbk")
+    except:
+        traceback.print_exc()
+        return None
 
-    
+
+def handle_url_request(url):
+    try:
+        req = request.Request(
+            url=url,
+            headers=para.headers
+        )
+        data = request.urlopen(req).read()
+        return util.decode(data)
+    except:
+        traceback.print_exc()
+        return None
+
+def handle_post_request(text):
+    try:
+        para.post_form['text'] = text
+        data = urlencode(para.post_form)
+        url = para.post_url % util.get_systemtime()
+        req = request.Request(
+            url=url,
+            data=bytearray(data, 'utf-8'),
+            headers=para.headers
+        )
+        data = request.urlopen(req).read()
+        return util.decode(data)
+    except:
+        traceback.print_exc()
+        return None

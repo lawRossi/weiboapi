@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 """
 @Author: Rossi
 2016-01-23
@@ -12,6 +13,8 @@ login_url = 'http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.4.11
 session_url = 'http://beacon.sina.com.cn/e.gif?UATrack||300805596634.7456.1392949880014' \
     + '||7143980532418.937.1396334858970||||tblog_weibologin3||click_sign||' \
     + 'http%3A//www.hao123.com/||javascript%3Avoid%280%29||||WEIBO-V5:&gUid_1396343431857'
+
+post_url = 'http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=%s'
 
 query_url = 'http://weibo.com/p/aj/v6/mblog/mbloglist'  # for quering weibo content
 
@@ -81,4 +84,20 @@ query_parameters = {
     'mod': 'data',
     'domain_op': '',
     '__rnd': ''
+}
+
+
+post_form = {
+    "location": "v6_content_home",
+    "appkey": "",
+    "style_type": "1",
+    "pic_id": "",
+    "text": "",
+    "pdetail": "",
+    "rank": 0,
+    "rankid": "",
+    "module": "stissue",
+    "pub_source": "main_",
+    "pub_type": "dialog",
+    "_t": 0
 }
