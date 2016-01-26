@@ -4,8 +4,6 @@
 2016-01-23
 """
 from weiboapi.api.api import *
-
-
 # def test_get_prelogin_parameters():
 #     assert get_prelogin_parameters("xiaocailuoxi@sina.com") == True
 

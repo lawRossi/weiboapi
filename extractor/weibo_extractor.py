@@ -8,11 +8,17 @@ from lxml import etree
 import traceback
 
 
+# deal with py2 encoding problem
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+
 def extract_script(html):
     """
     Extracting scripts from html.
     """
-    soup = BeautifulSoup(html)
+    soup = BeautifulSoup(html, "lxml")
     scripts = soup.find_all('script')
     return scripts
 
@@ -84,7 +90,7 @@ class ContentExtractor(FieldExtractor):
         Extracting weibo content from the given div elment.
         """
         content = div.xpath(r'.//div[@node-type="feed_list_content"]')[0]
-        root = BeautifulSoup(etree.tostring(content, encoding="utf-8"))
+        root = BeautifulSoup(etree.tostring(content, encoding="utf-8"), "lxml")
         node = root.find('div')
         text = ""
         img_text = ""
