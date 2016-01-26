@@ -16,6 +16,8 @@ session_url = 'http://beacon.sina.com.cn/e.gif?UATrack||300805596634.7456.139294
 
 post_url = 'http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=%s'
 
+post_comment_url = 'http://weibo.com/aj/v6/comment/add?ajwvr=6&__rnd=%s'
+
 query_url = 'http://weibo.com/p/aj/v6/mblog/mbloglist'  # for quering weibo content
 
 newcard_url = 'http://weibo.com/aj/v6/user/newcard?ajwvr=6&id=%s' \
@@ -26,6 +28,8 @@ comment_url = 'http://weibo.com/aj/v6/comment/big?ajwvr=6&id=%s&max_id=%s&page=%
 big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'
 
 servertime = None
+
+uid = ''
 
 request_body = {
     'entry': 'weibo',
@@ -99,5 +103,21 @@ post_form = {
     "module": "stissue",
     "pub_source": "main_",
     "pub_type": "dialog",
+    "_t": 0
+}
+
+
+comment_form = {
+    "act": "post",
+    "mid": "",
+    "uid": "",
+    "rid": "",
+    "forward": "0",
+    "isroot": "0",
+    "content": "",
+    "location": "v6_content_home",
+    "module": "scommlist",
+    "group_source": "group_all",
+    "pdetail": "",
     "_t": 0
 }

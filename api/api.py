@@ -3,14 +3,17 @@
 @Author: Rossi
 2016-01-23
 """
-from weiboapi.http.request2 import *
+from weiboapi.http.request import *
 from weiboapi.http import para
 import re
 import json
 import traceback
+from weiboapi.extractor.weibo_extractor import WeiboExtractor
+from .weibo import Weibo
 
 
 p = re.compile('\((.*)\)')
+weibo_extractor = WeiboExtractor(Weibo)
 
 
 def get_json(data):
@@ -69,6 +72,7 @@ def login(username, password):
             return False
         json_data = get_json(data)
         if(json_data['result']):
+            para.uid = json_data['userinfo']['uniqueid']
             return True
         else:
             return False         
@@ -77,17 +81,38 @@ def login(username, password):
         return False
 
 
-def post(text):
-    """
-    Making a post.
-    text: the content of the post.
-    """
-    data = handle_post_request(text)
-    if not data:
-        return False
-    print(data)
+def check_code(data):
     json_data = json.loads(data)
     if json_data["code"] == "100000":
         return True
     else:
         return False
+
+def post(content):
+    """
+    Making a post.
+    content: the content of the post.
+    """
+    data = handle_post_request(content)
+    if not data:
+        return False
+    return check_code(data)
+
+
+def comment(mid, rid, content):
+    data = handle_comment_request(mid, rid, content)
+    if not data:
+        return False
+    print(data)
+    return check_code(data)
+
+
+def get_weibos(uid, domain='100505', page=1):
+    weibos = []
+    data = handle_get_weibos_request(uid, domain, page)
+    if not data:
+        return None
+
+    weibos.extend(weibo_extractor.extract_weibos(data, True))
+
+    return weibos

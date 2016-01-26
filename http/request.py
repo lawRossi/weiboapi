@@ -27,17 +27,22 @@ opener = request.build_opener(cookie_support, request.HTTPHandler)
 request.install_opener(opener)
 
 
+def open_decode(req):
+    try:
+        data = request.urlopen(req).read()
+        return util.decode(data)
+    except:
+        traceback.print_exc()
+        return None
+
+
 def handle_prelogin_request(username):
     """
     """
-    try:
-        username = util.quote_base64_encode(username)
-        st = util.get_systemtime()
-        url = para.prelogin_url % (username, st)
-        data = request.urlopen(url).read()
-        return util.decode(data)
-    except:
-        return None
+    username = util.quote_base64_encode(username)
+    st = util.get_systemtime()
+    url = para.prelogin_url % (username, st)
+    return open_decode(url)
 
 
 def handle_session_request():
@@ -45,8 +50,9 @@ def handle_session_request():
         request.urlopen(para.session_url).read()
         return True
     except:
+        traceback.print_exc()
         return False
-
+   
 
 def handle_login_request(username, password):
     psw = util.encrypt_password(
@@ -75,29 +81,44 @@ def handle_login_request(username, password):
 
 
 def handle_url_request(url):
-    try:
-        req = request.Request(
-            url=url,
-            headers=para.headers
-        )
-        data = request.urlopen(req).read()
-        return util.decode(data)
-    except:
-        traceback.print_exc()
-        return None
+    req = request.Request(
+        url=url,
+        headers=para.headers
+    )
+    return open_decode(req)
+    
 
-def handle_post_request(text):
+
+def handle_post_request(content):
+    para.post_form['text'] = content
+    data = urlencode(para.post_form)
+    url = para.post_url % util.get_systemtime()
+    req = request.Request(
+        url=url,
+        data=bytearray(data, 'utf-8'),
+        headers=para.headers
+    )
+    return open_decode(req)
+
+
+def handle_comment_request(mid, content):
+    para.comment_form['mid'] = mid
+    para.comment_form['uid'] = para.uid
+    para.comment_form['content'] = content
+    data = urlencode(para.comment_form)
+    url = para.post_comment_url % util.get_systemtime()
+    req = request.Request(
+        url=url,
+        data=bytearray(data, 'utf-8'),
+        headers=para.headers
+    )
+    return open_decode(req)
+
+
+def handle_get_weibos_request(uid, domain, page):
     try:
-        para.post_form['text'] = text
-        data = urlencode(para.post_form)
-        url = para.post_url % util.get_systemtime()
-        req = request.Request(
-            url=url,
-            data=bytearray(data, 'utf-8'),
-            headers=para.headers
-        )
-        data = request.urlopen(req).read()
-        return util.decode(data)
+        url = 'http://weibo.com/p/' + domain + uid + '/home?page=%d' %page
+        return open_decode(url)
     except:
-        traceback.print_exc()
+        traceback.print_exc();
         return None
