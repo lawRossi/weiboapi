@@ -10,10 +10,12 @@ import json
 import traceback
 from weiboapi.extractor.weibo_extractor import WeiboExtractor
 from .weibo import Weibo
-
+from weiboapi.extractor.comment_extractor import CommentExtractor
+from .comment import Comment 
 
 p = re.compile('\((.*)\)')
 weibo_extractor = WeiboExtractor(Weibo)
+comment_extractor = CommentExtractor(Comment)
 
 
 def get_json(data):
@@ -75,7 +77,7 @@ def login(username, password):
             para.uid = json_data['userinfo']['uniqueid']
             return True
         else:
-            return False         
+            return False        
     except:
         traceback.print_exc()
         return False
@@ -112,7 +114,80 @@ def get_weibos(uid, domain='100505', page=1):
     data = handle_get_weibos_request(uid, domain, page)
     if not data:
         return None
+    new_weibos = request_weibos(uid, domain, page, 1)
+    if not new_weibos:
+        return weibos
+    else:
+        weibos.extend(new_weibos)
 
-    weibos.extend(weibo_extractor.extract_weibos(data, True))
+    end_id = weibos[0]["mid"]
+    new_weibos = request_weibos(uid, domain, page, 2, end_id)
+    if not new_weibos:
+        return weibos
+    else:
+        weibos.extend(new_weibos)
 
+    new_weibos = request_weibos(uid, domain, page, 3)
+    if not new_weibos:
+        return weibos
+    else:
+        weibos.extend(new_weibos)
+    print(weibos)
     return weibos
+
+
+def request_weibos(uid, domain, page, stage, end_id=None):
+    if stage == 1:
+        data = handle_get_weibos_request(uid, domain, page)
+        if not data:
+            return None
+        weibos = weibo_extractor.extract_weibos(data, True)
+        return check_weibos(weibos)
+
+    elif stage == 2:
+        data = handle_get_weibos_request(uid, domain, page, stage, end_id)
+        if not data:
+            return None
+        json_data = json.loads(data)
+        doc = json_data['data']
+        weibos = weibo_extractor.extract_weibos(doc)
+        return check_weibos(weibos)
+    else:
+        data = handle_get_weibos_request(uid, domain, page, stage)
+        if not data:
+            return None
+        json_data = json.loads(data)
+        doc = json_data['data']
+        weibos = weibo_extractor.extract_weibos(doc)
+        return check_weibos(weibos)
+
+
+def check_weibos(weibos):
+    if len(weibos) == 0:
+        return None
+    return weibos
+
+
+def get_weibo(url):
+    data = handle_url_request(url)
+    if not data:
+        return None
+    weibos = weibo_extractor.extract_weibos(data, True, single=True)
+    if len(weibos) == 1:
+        return weibos[0]
+    else:
+        return None
+
+
+def get_comments(mid, page):
+    _time = util.get_systemtime()
+    url = para.comment_url %(mid, page, _time)
+    data = handle_url_request(url)
+    if not data:
+        return None
+
+    json_data = json.loads(data)
+    data = json_data["data"]
+    doc = data["html"]
+    comments = comment_extractor.extract_comments(doc)
+    return comments

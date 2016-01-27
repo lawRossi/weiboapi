@@ -69,3 +69,12 @@ def encrypt_password(p, st, nonce, pk, rsakv):
     psw = rsa.encrypt(msg.encode("utf-8"), key)
     psw = binascii.b2a_hex(psw)
     return decode(psw)
+
+
+def timestamp_to_date(timestamp):
+    """
+    Converting timestamp to date.
+    """
+    ltime = time.localtime(timestamp)
+    time_str = time.strftime("%Y-%m-%d %H:%M:%S", ltime)
+    return time_str

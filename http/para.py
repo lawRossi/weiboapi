@@ -23,7 +23,7 @@ query_url = 'http://weibo.com/p/aj/v6/mblog/mbloglist'  # for quering weibo cont
 newcard_url = 'http://weibo.com/aj/v6/user/newcard?ajwvr=6&id=%s' \
     + '&type=1&call_back=STK_%s'
 
-comment_url = 'http://weibo.com/aj/v6/comment/big?ajwvr=6&id=%s&max_id=%s&page=%d&__rnd=%s'
+comment_url = 'http://weibo.com/aj/v6/comment/big?ajwvr=6&id=%s&max_id=''&page=%d&__rnd=%s'
 
 big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'
 
@@ -68,7 +68,8 @@ DICT = {}
 for i in range(len(ALPHABET)):
     DICT[ALPHABET[i]] = i
 
-query_parameters = {
+
+query_form = {
     'domain': '',
     'ajwvr': '6',
     'wvr': '6',

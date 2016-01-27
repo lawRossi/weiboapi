@@ -11,7 +11,6 @@ from weiboapi.api.api import *
 def test_login():
     #assert login("xiaocailuoxi@sina.com", "xiaocai") == False
     assert login("xiaocailuoxi@sina.com", "xiaocailuoxi") == True
-    #assert login("luoweiang@sina.cn", "luoweiang920322") == True
 
 
 
@@ -23,7 +22,16 @@ def test_login():
 #    assert comment("3935531970578484", "hehe") == True
 
 
-def test_get_weibos():
-    weibos = get_weibos("2237529652")
-    print(weibos[0])
-    assert len(weibos) > 0 
+# def test_get_weibos():
+#     weibos = get_weibos("2237529652")
+#     assert len(weibos) == 44
+
+
+# def test_get_weibo():
+#     weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
+#     print(weibo)
+
+
+def test_get_comments():
+    comments = get_comments("3935531970578484", 1)
+    print(comments)

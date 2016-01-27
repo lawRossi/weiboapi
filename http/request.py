@@ -115,10 +115,37 @@ def handle_comment_request(mid, content):
     return open_decode(req)
 
 
-def handle_get_weibos_request(uid, domain, page):
+def handle_get_weibos_request(uid, domain, page, stage=1, end_id=None):
     try:
-        url = 'http://weibo.com/p/' + domain + uid + '/home?page=%d' %page
+        if stage == 1:
+            url = 'http://weibo.com/p/' + domain + uid + '/home?page=%d' %page
+            return open_decode(url)
+        elif stage == 2:
+            parameters = para.query_form
+            parameters['domain'] = domain
+            parameters['domain_op'] = domain
+            parameters['pre_page'] = str(page)
+            parameters['page'] = str(page)
+            parameters['end_id'] = end_id
+            parameters['pagebar'] = '0'
+            parameters['id'] = domain + uid
+            parameters['__rnd'] = util.get_systemtime()
+        else:
+            parameters = para.query_form
+            parameters['pagebar'] = '1'
+
+        url = construct_url(parameters)
         return open_decode(url)
+        
     except:
         traceback.print_exc();
         return None
+
+
+def construct_url(parameters):
+    url = para.query_url
+    url += '?'
+    for key in parameters.keys():
+        url += (key + '=' + str(parameters[key]) + '&')
+    url = url[:-1]
+    return url
