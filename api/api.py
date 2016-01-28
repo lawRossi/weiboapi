@@ -4,18 +4,22 @@
 2016-01-23
 """
 from weiboapi.http.request import *
-from weiboapi.http import para
+from weiboapi import para
 import re
 import json
 import traceback
 from weiboapi.extractor.weibo_extractor import WeiboExtractor
 from .weibo import Weibo
 from weiboapi.extractor.comment_extractor import CommentExtractor
-from .comment import Comment 
+from .comment import Comment
+from weiboapi.extractor.account_extractor import AccountExtractor
+from weiboapi.extractor.misc import *
+
 
 p = re.compile('\((.*)\)')
 weibo_extractor = WeiboExtractor(Weibo)
 comment_extractor = CommentExtractor(Comment)
+account_extractor = AccountExtractor()
 
 
 def get_json(data):
@@ -68,7 +72,7 @@ def login(username, password):
         url = extract_url(data)
         if not url:
             return False
-        
+       
         data = handle_url_request(url)
         if not data:
             return False
@@ -90,6 +94,7 @@ def check_code(data):
     else:
         return False
 
+
 def post(content):
     """
     Making a post.
@@ -109,11 +114,11 @@ def comment(mid, rid, content):
     return check_code(data)
 
 
-def get_weibos(uid, domain='100505', page=1):
+def get_weibos(uid, domain=None, page=1):
+    if not domain:
+        domain = get_domain(uid)
+
     weibos = []
-    data = handle_get_weibos_request(uid, domain, page)
-    if not data:
-        return None
     new_weibos = request_weibos(uid, domain, page, 1)
     if not new_weibos:
         return weibos
@@ -132,7 +137,7 @@ def get_weibos(uid, domain='100505', page=1):
         return weibos
     else:
         weibos.extend(new_weibos)
-    print(weibos)
+
     return weibos
 
 
@@ -181,7 +186,7 @@ def get_weibo(url):
 
 def get_comments(mid, page):
     _time = util.get_systemtime()
-    url = para.comment_url %(mid, page, _time)
+    url = para.comment_url % (mid, page, _time)
     data = handle_url_request(url)
     if not data:
         return None
@@ -191,3 +196,24 @@ def get_comments(mid, page):
     doc = data["html"]
     comments = comment_extractor.extract_comments(doc)
     return comments
+
+
+def get_account(uid):
+    data = handle_namecard_request(uid)
+    if not data:
+        return None
+    json_data = re.findall('(\({.*}\))', data)[0]
+    json_data = json.loads(json_data[1:-1])
+    doc = json_data["data"]
+    account = account_extractor.extract_account(doc)
+    if account:
+        account["uid"] = uid
+    return account
+
+
+def get_domain(uid):
+    url = "http://weibo.com/u/%s/home" % uid 
+    data = handle_url_request(url)
+    if not data:
+        return None
+    return extract_domain(data)

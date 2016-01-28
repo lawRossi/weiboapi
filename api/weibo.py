@@ -4,7 +4,7 @@
 2016-01-26
 """
 
-from weiboapi.item import Item, Field
+from .item import Item, Field
 
 
 class Weibo(Item):
@@ -23,4 +23,3 @@ class Weibo(Item):
     root_url = Field()
     links = Field()
     link_text = Field()
-

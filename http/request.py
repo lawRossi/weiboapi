@@ -3,7 +3,7 @@
 2016-01-25
 """
 from weiboapi.util import util
-from . import para
+from weiboapi import para
 try:
     from urllib import urlencode
 except:
@@ -118,7 +118,8 @@ def handle_comment_request(mid, content):
 def handle_get_weibos_request(uid, domain, page, stage=1, end_id=None):
     try:
         if stage == 1:
-            url = 'http://weibo.com/p/' + domain + uid + '/home?page=%d' %page
+            url = 'http://weibo.com/p/' + domain + uid \
+                + ('/home?is_all=1&page=%d' % page)
             return open_decode(url)
         elif stage == 2:
             parameters = para.query_form
@@ -149,3 +150,8 @@ def construct_url(parameters):
         url += (key + '=' + str(parameters[key]) + '&')
     url = url[:-1]
     return url
+
+
+def handle_namecard_request(uid):
+    url = para.newcard_url % (uid, util.get_systemtime())
+    return handle_url_request(url)

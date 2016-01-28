@@ -3,7 +3,7 @@
 @Author: Rossi
 2016-01-27
 """
-from weiboapi.item import Item, Field
+from .item import Item, Field
 
 
 class Comment(Item):

@@ -144,7 +144,6 @@ class ContentExtractor(FieldExtractor):
         weibo["content"] = text
 
 
-
 class NumberInfoExtractor(FieldExtractor):
     def extract(self, div, weibo):
         """

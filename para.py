@@ -71,6 +71,7 @@ for i in range(len(ALPHABET)):
 
 query_form = {
     'domain': '',
+    'is_all': '1',
     'ajwvr': '6',
     'wvr': '6',
     'pre_page': '',

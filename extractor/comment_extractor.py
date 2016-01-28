@@ -32,14 +32,17 @@ class CommentExtractor():
         divs = html.xpath(r'//div[@class="list_ul"]/div')
         comments = []
         for div in divs[:-1]:
-            comment = self.comment_class()
-            comment["content"] = self.extract_comment_content(div)
-            comment["like_number"] = self.extract_like_number(div)
-            comment["date"] = self.extract_date(div)
-            comment["comment_id"] = self.extract_comment_id(div)
-            comment["uid"], comment["nick"] = self.extract_uid_nick(div)
-            comments.append(comment)
-
+            try:
+                comment = self.comment_class()
+                comment["content"] = self.extract_comment_content(div)
+                comment["like_number"] = self.extract_like_number(div)
+                comment["date"] = self.extract_date(div)
+                comment["comment_id"] = self.extract_comment_id(div)
+                comment["uid"], comment["nick"] = self.extract_uid_nick(div)
+                comments.append(comment)
+            except:
+                traceback.print_exc();
+                continue
         return comments
 
     def extract_comment_content(self, div):

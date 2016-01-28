@@ -22,9 +22,15 @@ def test_login():
 #    assert comment("3935531970578484", "hehe") == True
 
 
+# def test_get_domain():
+#     domain = get_domain("2237529652")
+#     print(domain)
+
+
 # def test_get_weibos():
+#     #weibos = get_weibos("2237529652", "100505")
 #     weibos = get_weibos("2237529652")
-#     assert len(weibos) == 44
+#     print(len(weibos))
 
 
 # def test_get_weibo():
@@ -32,6 +38,11 @@ def test_login():
 #     print(weibo)
 
 
-def test_get_comments():
-    comments = get_comments("3935531970578484", 1)
-    print(comments)
+# def test_get_comments():
+#     comments = get_comments("3935531970578484", 1)
+#     print(comments)
+
+
+def test_get_account():
+    account = get_account("2237529652")
+    print(account)
