@@ -217,3 +217,17 @@ def get_domain(uid):
     if not data:
         return None
     return extract_domain(data)
+
+
+def get_relation(uid, domain=None, page=1, _type="followee"):
+    """
+    """
+    if not domain:
+        domain = get_domain(uid)
+    followee = []
+    data = handle_get_relation_request(uid, domain, page, _type)
+    if not data:
+        return
+
+    return extract_relation(data)
+

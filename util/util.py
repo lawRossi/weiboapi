@@ -11,6 +11,8 @@ try:
     from urllib import quote
 except:
     from urllib.request import quote
+from bs4 import BeautifulSoup
+import json
 
 
 OK = 200
@@ -78,3 +80,23 @@ def timestamp_to_date(timestamp):
     ltime = time.localtime(timestamp)
     time_str = time.strftime("%Y-%m-%d %H:%M:%S", ltime)
     return time_str
+
+
+def extract_script(html):
+    """
+    Extracting scripts from html.
+    """
+    soup = BeautifulSoup(html, "lxml")
+    scripts = soup.find_all('script')
+    return scripts
+
+
+def extract_html_from_script(text):
+    """
+    Extracting html from script text.
+    """
+    begin = len('FM.view(')
+    end = len(text) - len(')')
+    json_data = json.loads(text[begin: end])
+    doc = json_data['html']
+    return doc

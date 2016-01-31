@@ -19,15 +19,6 @@ except:
     pass
 
 
-def extract_script(html):
-    """
-    Extracting scripts from html.
-    """
-    soup = BeautifulSoup(html, "lxml")
-    scripts = soup.find_all('script')
-    return scripts
-
-
 class WeiboExtractor():
     def __init__(self, weibo_class):
         self.weibo_class = weibo_class
@@ -77,20 +68,21 @@ class WeiboExtractor():
         json_data = json.loads(text[begin: end])
         doc = json_data['html']
         return doc
+       
 
     def extract_content_html(self, html, single=False):
         """
         Extracting html code that contains weibo content.
         """
-        scripts = extract_script(html)
+        scripts = util.extract_script(html)
         for script in scripts:
             text = script.text.strip()
             if not single:
                 if text.find(r'"domid":"Pl_Official_MyProfileFeed') != -1:
-                    return self.extract_html(text)
+                    return util.extract_html_from_script(text)
             else:
                 if text.find(r'pl.content.weiboDetail.index') != -1:
-                    return self.extract_html(text)
+                    return util.extract_html_from_script(text)
 
 
 

@@ -10,7 +10,7 @@ from weiboapi.api.api import *
 
 def test_login():
     #assert login("xiaocailuoxi@sina.com", "xiaocai") == False
-    assert login("xiaocailuoxi@sina.com", "xiaocailuoxi") == True
+    assert login("xiaocailuoxi@sina.com", "xiaocailuoxi03") == True
 
 
 
@@ -28,8 +28,8 @@ def test_login():
 
 
 # def test_get_weibos():
-#     #weibos = get_weibos("2237529652", "100505")
-#     weibos = get_weibos("2237529652")
+#     weibos = get_weibos("2237529652", "100505")
+#     #weibos = get_weibos("2864766784")
 #     print(len(weibos))
 
 
@@ -43,6 +43,13 @@ def test_login():
 #     print(comments)
 
 
-def test_get_account():
-    account = get_account("2237529652")
-    print(account)
+# def test_get_account():
+#     account = get_account("2237529652")
+#     print(account)
+
+
+def test_get_relation():
+    followees = get_relation("2864766784", "100505")
+    print(followees)
+    followers = get_relation("2864766784", "100505", _type="follower")
+    print(followers)

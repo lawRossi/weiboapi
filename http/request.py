@@ -155,3 +155,12 @@ def construct_url(parameters):
 def handle_namecard_request(uid):
     url = para.newcard_url % (uid, util.get_systemtime())
     return handle_url_request(url)
+
+
+def handle_get_relation_request(uid, domain, page, _type="followee"):
+    if _type == "followee":
+        url = para.get_followee_url % (domain, uid, page)
+    else:
+        url = para.get_follower_url % (domain, uid, page)
+
+    return handle_url_request(url)
