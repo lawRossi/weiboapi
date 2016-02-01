@@ -55,6 +55,11 @@ def test_login():
 #     print(followers)
 
 
-def test_get_user_info():
-    userinfo = get_user_info("1825436514")
-    print(userinfo)
+# def test_get_user_info():
+#     userinfo = get_user_info("1825436514")
+#     print(userinfo)
+
+
+def test_is_verified():
+    assert is_verified("1825436514") == False
+    assert is_verified("1750070171") == True

@@ -212,8 +212,7 @@ def get_account(uid):
 
 
 def get_domain(uid):
-    url = "http://weibo.com/u/%s/home" % uid 
-    data = handle_url_request(url)
+    data = handle_homepage_request(uid)
     if not data:
         return None
     return extract_domain(data)
@@ -236,3 +235,12 @@ def get_user_info(uid, domain="100505"):
     if not data:
         return
     return extract_user_info(data)
+
+
+def is_verified(uid):
+    data = handle_homepage_request(uid)
+    if not data:
+        return
+    if data.find("verify_area") != -1:
+        return True
+    return False

@@ -169,3 +169,8 @@ def handle_get_relation_request(uid, domain, page, _type="followee"):
 def handle_get_user_info_request(uid, domain):
     url = para.get_user_info_url % (domain, uid)
     return handle_url_request(url)
+
+
+def handle_homepage_request(uid):
+    url = para.home_url % uid
+    return handle_url_request(url)

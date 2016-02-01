@@ -19,3 +19,4 @@ class Account(Item):
     follower_number = Field()
     followee_number = Field()
     post_number = Field()
+    verify = Field()

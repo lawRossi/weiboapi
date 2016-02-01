@@ -31,6 +31,8 @@ get_follower_url = 'http://weibo.com/p/%s%s/follow?relate=fans&page=%d'
 
 get_user_info_url = 'http://weibo.com/p/%s%s/info'
 
+home_url = 'http://weibo.com/u/%s/home'
+
 big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'
 
 servertime = None
