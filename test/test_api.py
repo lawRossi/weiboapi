@@ -28,11 +28,14 @@ def test_login():
 
 
 # def test_get_weibos():
-#     weibos = get_weibos("2237529652", "100505")
+#     weibos = get_weibos("2237529652", "100505", page=2)
+
 #     #weibos = get_weibos("2864766784")
 #     print(len(weibos))
+#     weibos = get_weibos("1750070171", "100206")
+#     print(len(weibos))
 
-
+    
 # def test_get_weibo():
 #     weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
 #     print(weibo)
@@ -55,11 +58,11 @@ def test_login():
 #     print(followers)
 
 
-# def test_get_user_info():
-#     userinfo = get_user_info("1825436514")
-#     print(userinfo)
+def test_get_user_info():
+    userinfo = get_user_info("3206249732")
+    print(userinfo)
 
 
-def test_is_verified():
-    assert is_verified("1825436514") == False
-    assert is_verified("1750070171") == True
+# def test_is_verified():
+#     assert is_verified("1825436514") == False
+#     assert is_verified("1750070171") == True
