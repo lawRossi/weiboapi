@@ -100,3 +100,19 @@ def extract_html_from_script(text):
     json_data = json.loads(text[begin: end])
     doc = json_data['html']
     return doc
+
+
+def select_script(scripts, flag):
+    for script in scripts:
+        text = script.text.strip()
+        if text.find(flag) != -1:
+            return script
+
+
+def clean_text(text):
+    text = text.strip()
+    text = text.replace("\t", "")
+    text = text.replace("\r", "")
+    text = text.replace("\n", " ")
+    text = text.replace("  ", " ")
+    return text

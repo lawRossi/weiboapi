@@ -164,3 +164,8 @@ def handle_get_relation_request(uid, domain, page, _type="followee"):
         url = para.get_follower_url % (domain, uid, page)
 
     return handle_url_request(url)
+
+
+def handle_get_user_info_request(uid, domain):
+    url = para.get_user_info_url % (domain, uid)
+    return handle_url_request(url)

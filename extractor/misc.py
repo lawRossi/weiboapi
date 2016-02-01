@@ -17,13 +17,8 @@ def extract_domain(doc):
 def extract_relation(doc):
     try:
         scripts = util.extract_script(doc)
-        html = None
-        for script in scripts:
-            text = script.text.strip()
-            if text.find(r'pl.content.followTab.index') != -1:
-                html = util.extract_html_from_script(text)
-        if not html:
-            return
+        script = util.select_script(scripts, r'pl.content.followTab.index')
+        html = util.extract_html_from_script(script.text.strip())
         html = etree.HTML(html)
         datas = html.xpath(r'.//ul[@class="follow_list"]/li/@action-data')
         followees = []
@@ -37,6 +32,25 @@ def extract_relation(doc):
             followees.append(followee)
 
         return followees
+    except:
+        traceback.print_exc()
+        return None
+
+
+def extract_user_info(doc):
+    try:
+        scripts = util.extract_script(doc)
+        script = util.select_script(
+            scripts, r'"domid":"Pl_Official_PersonalInfo__63"'
+            )
+        html = util.extract_html_from_script(script.text.strip())
+        html = etree.HTML(html)
+        lis = html.xpath(r'//ul/li')
+        info = []
+        for li in lis:
+            text = li.xpath("string()")
+            info.append(util.clean_text(text))
+        return info
     except:
         traceback.print_exc()
         return None

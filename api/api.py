@@ -224,10 +224,15 @@ def get_relation(uid, domain=None, page=1, _type="followee"):
     """
     if not domain:
         domain = get_domain(uid)
-    followee = []
     data = handle_get_relation_request(uid, domain, page, _type)
     if not data:
         return
 
     return extract_relation(data)
 
+
+def get_user_info(uid, domain="100505"):
+    data = handle_get_user_info_request(uid, domain)
+    if not data:
+        return
+    return extract_user_info(data)

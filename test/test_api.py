@@ -48,8 +48,13 @@ def test_login():
 #     print(account)
 
 
-def test_get_relation():
-    followees = get_relation("2864766784", "100505")
-    print(followees)
-    followers = get_relation("2864766784", "100505", _type="follower")
-    print(followers)
+# def test_get_relation():
+#     followees = get_relation("2864766784", "100505")
+#     print(followees)
+#     followers = get_relation("2864766784", "100505", _type="follower")
+#     print(followers)
+
+
+def test_get_user_info():
+    userinfo = get_user_info("1825436514")
+    print(userinfo)

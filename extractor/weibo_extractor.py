@@ -4,7 +4,6 @@
 2016-01-26
 """
 from bs4 import BeautifulSoup
-import json
 from lxml import etree
 import traceback
 from weiboapi.util import util
@@ -57,33 +56,23 @@ class WeiboExtractor():
                 continue
 
         return weibos
-
-
-    def extract_html(self, text):
-        """
-        Extracting html from script text.
-        """
-        begin = len('FM.view(')
-        end = len(text) - len(')')
-        json_data = json.loads(text[begin: end])
-        doc = json_data['html']
-        return doc
-       
+   
 
     def extract_content_html(self, html, single=False):
         """
         Extracting html code that contains weibo content.
         """
         scripts = util.extract_script(html)
-        for script in scripts:
-            text = script.text.strip()
-            if not single:
-                if text.find(r'"domid":"Pl_Official_MyProfileFeed') != -1:
-                    return util.extract_html_from_script(text)
-            else:
-                if text.find(r'pl.content.weiboDetail.index') != -1:
-                    return util.extract_html_from_script(text)
-
+        if not single:
+            script = util.select_script(
+                scripts, r'"domid":"Pl_Official_MyProfileFeed'
+            )
+        else:
+            script = util.select_script(
+                scripts, r'pl.content.weiboDetail.index'
+            )
+        text = script.text.strip()
+        return util.extract_html_from_script(text)   
 
 
 class FieldExtractor():
