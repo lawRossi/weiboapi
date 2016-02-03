@@ -6,7 +6,7 @@ from os.path import dirname, join
 from setuptools import setup, find_packages  
   
 
-with open(join(dirname(__file__), 'VERSION'), 'r') as f:
+with open(join(dirname(__file__), 'weiboapi/VERSION'), 'r') as f:
     version = f.read().strip()
 
 
@@ -16,4 +16,9 @@ setup(
     description="Sina weibo api.",
     author="Rossi",
     packages=find_packages(exclude=("test", "test.*")),
+    install_requires=[
+        "lxml",
+        "rsa",
+        "BeautifulSoup4"
+    ]
 )
