@@ -7,6 +7,7 @@ from .item import Item, Field
 
 class Account(Item):
     """
+    Weibo account class.
     """
     uid = Field()
     nick = Field()

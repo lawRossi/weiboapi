@@ -9,8 +9,7 @@ from lxml import etree
 
 
 class AccountExtractor():
-    """
-    """
+    
     def extract_account(self, doc):
         try:
             account = Account()

@@ -2,7 +2,10 @@
 """
 @Author: Rossi
 2016-01-23
+
+This module contains some global varibles.
 """
+
 
 prelogin_url = 'http://login.sina.com.cn/sso/prelogin.php?entry=weibo' \
     + '&callback=sinaSSOController.preloginCallBack&su=%s&rsakt=mod' \
@@ -37,7 +40,7 @@ big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'
 
 servertime = None
 
-uid = ''
+uid = ''  #the id of the "login account".
 
 request_body = {
     'entry': 'weibo',
@@ -60,7 +63,7 @@ request_body = {
     'url': 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=' \
     + 'parent.sinaSSOController.feedBackUrlCallBack',
     'returntype': 'META'
-}
+}  # used by login requests.
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36' \
@@ -98,7 +101,7 @@ query_form = {
     'mod': 'data',
     'domain_op': '',
     '__rnd': ''
-}
+}  # used for requesting Weibo posts.
 
 
 post_form = {
@@ -114,7 +117,7 @@ post_form = {
     "pub_source": "main_",
     "pub_type": "dialog",
     "_t": 0
-}
+}  # used for posting a Weibo
 
 
 comment_form = {
@@ -130,4 +133,4 @@ comment_form = {
     "group_source": "group_all",
     "pdetail": "",
     "_t": 0
-}
+}  # used for posting a coment

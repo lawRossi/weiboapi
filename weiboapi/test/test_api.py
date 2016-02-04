@@ -18,8 +18,8 @@ def test_login():
 #     assert post("[哈哈]") == True
 
 
-# def test_comment():
-#    assert comment("3935531970578484", "hehe") == True
+def test_comment():
+   assert comment("3938833714291022", "hehe") == True
 
 
 # def test_get_domain():
@@ -41,9 +41,9 @@ def test_login():
 #     print(weibo)
 
 
-# def test_get_comments():
-#     comments = get_comments("3935531970578484", 1)
-#     print(comments)
+def test_get_comments():
+    comments = get_comments("3938833714291022", 1)
+    print(comments)
 
 
 # def test_get_account():
@@ -58,9 +58,9 @@ def test_login():
 #     print(followers)
 
 
-def test_get_user_info():
-    userinfo = get_user_info("3206249732")
-    print(userinfo)
+# def test_get_user_info():
+#     userinfo = get_user_info("3206249732")
+#     print(userinfo)
 
 
 # def test_is_verified():

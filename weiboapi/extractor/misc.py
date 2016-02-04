@@ -1,6 +1,8 @@
 """
 @Author: Rossi
 2016-01-28
+This module contains exracting functions used for extracting something other
+than Weibo, comment and account.
 """
 import traceback
 from lxml import etree

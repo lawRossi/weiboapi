@@ -7,6 +7,9 @@ from .item import Item, Field
 
 
 class Comment(Item):
+    """
+    Weibo comment class. Used for retriving comments of a Weibo post.
+    """
     comment_id = Field()
     content = Field()
     date = Field()

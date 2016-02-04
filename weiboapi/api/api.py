@@ -2,6 +2,7 @@
 """
 @Author: Rossi
 2016-01-23
+This module contains all useful Sina Weibo api functions.
 """
 from weiboapi.http.request import *
 from weiboapi import para
@@ -23,6 +24,9 @@ account_extractor = AccountExtractor()
 
 
 def get_json(data):
+    """
+    Extracting json data from the given string.
+    """
     json_data = p.search(data).group(1)
     json_data = json.loads(json_data)
     return json_data
@@ -57,7 +61,7 @@ def get_prelogin_parameters(username):
 
 def login(username, password):
     """
-    Logging in sina weibo using username and password
+    Logging in sina weibo using username and password.
     """
     if not get_prelogin_parameters(username):
         return False
@@ -72,7 +76,7 @@ def login(username, password):
         url = extract_url(data)
         if not url:
             return False
-       
+      
         data = handle_url_request(url)
         if not data:
             return False
@@ -81,13 +85,17 @@ def login(username, password):
             para.uid = json_data['userinfo']['uniqueid']
             return True
         else:
-            return False        
+            return False       
     except:
         traceback.print_exc()
         return False
 
 
 def check_code(data):
+    """
+    Checking the response code. If the request is handled correctly,
+    the code would be '100000'.
+    """
     json_data = json.loads(data)
     if json_data["code"] == "100000":
         return True
@@ -106,15 +114,25 @@ def post(content):
     return check_code(data)
 
 
-def comment(mid, rid, content):
-    data = handle_comment_request(mid, rid, content)
+def comment(mid, content):
+    """
+    Posting a comment.
+    mid: the id of the Weibo on which the is comment posted.
+    content: the content of the comment.
+    """
+    data = handle_comment_request(mid, content)
     if not data:
         return False
-    print(data)
     return check_code(data)
 
 
 def get_weibos(uid, domain=None, page=1):
+    """
+    Retriving the specified page of Weibo posts of a specified account.
+    uid: the id of the target account.
+    domain: the domain of the account.
+    page: specified page of the posts.
+    """
     if not domain:
         domain = get_domain(uid)
 
@@ -174,6 +192,9 @@ def check_weibos(weibos):
 
 
 def get_weibo(url):
+    """
+    Retriving a unique Weibo post using the given url.
+    """
     data = handle_url_request(url)
     if not data:
         return None
@@ -185,6 +206,11 @@ def get_weibo(url):
 
 
 def get_comments(mid, page):
+    """
+    Retriving the specified page of comments of the specified Weibo post.
+    mid: the id of the Weibo post
+    page: specified page
+    """
     _time = util.get_systemtime()
     url = para.comment_url % (mid, page, _time)
     data = handle_url_request(url)
@@ -199,6 +225,10 @@ def get_comments(mid, page):
 
 
 def get_account(uid):
+    """
+    Retriving the information of the specified account.
+    uid: the id of the account.
+    """
     data = handle_namecard_request(uid)
     if not data:
         return None
@@ -212,6 +242,10 @@ def get_account(uid):
 
 
 def get_domain(uid):
+    """
+    Retriving the domain of an account.
+    uid: the id of the account.
+    """
     data = handle_homepage_request(uid)
     if not data:
         return None
@@ -220,6 +254,11 @@ def get_domain(uid):
 
 def get_relation(uid, domain=None, page=1, _type="followee"):
     """
+    Retriving the relations of an account.
+    uid: the id of the account.
+    domain: the domain of the account.
+    page: the specified page.
+    _type: the type of the relations (followee or follower)
     """
     if not domain:
         domain = get_domain(uid)
@@ -231,6 +270,11 @@ def get_relation(uid, domain=None, page=1, _type="followee"):
 
 
 def get_user_info(uid, domain="100505"):
+    """
+    Retriving the information of the user of an account.
+    uid: the id of the account.
+    domain: the domain of the account.
+    """
     data = handle_get_user_info_request(uid, domain)
     if not data:
         return
@@ -238,6 +282,9 @@ def get_user_info(uid, domain="100505"):
 
 
 def is_verified(uid):
+    """
+    Checking whether an account is verified.
+    """
     data = handle_homepage_request(uid)
     if not data:
         return

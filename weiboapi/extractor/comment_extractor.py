@@ -21,8 +21,7 @@ except:
 
 
 class CommentExtractor():
-    """
-    """
+
     def __init__(self, comment_class):
         self.comment_class = comment_class
 

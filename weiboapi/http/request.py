@@ -1,26 +1,28 @@
 """
 @Author: Rossi
 2016-01-25
+This module contains functions that deal with all http requests.
 """
 from weiboapi.util import util
 from weiboapi import para
 try:
-    from urllib import urlencode
+    from urllib import urlencode  # py2
 except:
-    from urllib.parse import urlencode
+    from urllib.parse import urlencode  # py3
 
 try:
-    import urllib2 as request
+    import urllib2 as request  # py2
 except:
-    import urllib.request as request
+    import urllib.request as request  # py3
 
 try:
-    from cookielib import LWPCookieJar
+    from cookielib import LWPCookieJar  # py2
 except:
-    from http.cookiejar import LWPCookieJar
+    from http.cookiejar import LWPCookieJar  # py3
 import traceback
 
 
+# Installing cookie jar.
 cj = LWPCookieJar()
 cookie_support = request.HTTPCookieProcessor(cj)
 opener = request.build_opener(cookie_support, request.HTTPHandler)

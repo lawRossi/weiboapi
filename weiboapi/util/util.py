@@ -2,6 +2,7 @@
 """
 @Author: Rossi
 2016-01-24
+This module contains some utility functions.
 """
 import base64
 import time
@@ -103,6 +104,11 @@ def extract_html_from_script(text):
 
 
 def select_script(scripts, flag):
+    """
+    Selecting a script block according to the given flag.
+    scripts: the script blocks
+    flag: the given flag which is a string.
+    """
     for script in scripts:
         text = script.text.strip()
         if text.find(flag) != -1:

@@ -8,6 +8,9 @@ from .item import Item, Field
 
 
 class Weibo(Item):
+    """
+    Weibo class. Used for retriving weibo posts.
+    """
     content = Field()
     uid = Field()
     mid = Field()

@@ -1,4 +1,5 @@
 """
+This module is an adaptation of item.py of scrapy project.
 """
 
 from pprint import pformat
