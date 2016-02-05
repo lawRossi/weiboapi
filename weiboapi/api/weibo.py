@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 """
-@Author: Rossi
-2016-01-26
+:Author: Rossi
+:Date: 2016-01-26
 """
 
 from .item import Item, Field
@@ -11,6 +11,7 @@ class Weibo(Item):
     """
     Weibo class. Used for retriving weibo posts.
     """
+
     content = Field()
     uid = Field()
     mid = Field()

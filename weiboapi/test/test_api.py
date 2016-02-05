@@ -27,13 +27,14 @@ def test_comment():
 #     print(domain)
 
 
-# def test_get_weibos():
-#     weibos = get_weibos("2237529652", "100505", page=2)
+def test_get_weibos():
+    weibos = get_weibos("2237529652", "100505", page=2)
 
-#     #weibos = get_weibos("2864766784")
-#     print(len(weibos))
-#     weibos = get_weibos("1750070171", "100206")
-#     print(len(weibos))
+    #weibos = get_weibos("2864766784")
+    print(len(weibos))
+    print(weibos[0])
+    # weibos = get_weibos("1750070171", "100206")
+    # print(len(weibos))
 
     
 # def test_get_weibo():
@@ -41,9 +42,9 @@ def test_comment():
 #     print(weibo)
 
 
-def test_get_comments():
-    comments = get_comments("3938833714291022", 1)
-    print(comments)
+# def test_get_comments():
+#     comments = get_comments("3938833714291022", 1)
+#     print(comments)
 
 
 # def test_get_account():

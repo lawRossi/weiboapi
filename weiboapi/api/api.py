@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 """
-@Author: Rossi
-2016-01-23
+:Author: Rossi
+:Date: 2016-01-23
+
 This module contains all useful Sina Weibo api functions.
 """
 from weiboapi.http.request import *
@@ -106,7 +107,7 @@ def check_code(data):
 def post(content):
     """
     Making a post.
-    content: the content of the post.
+    :param str content: the content of the post.
     """
     data = handle_post_request(content)
     if not data:
@@ -129,9 +130,9 @@ def comment(mid, content):
 def get_weibos(uid, domain=None, page=1):
     """
     Retriving the specified page of Weibo posts of a specified account.
-    uid: the id of the target account.
-    domain: the domain of the account.
-    page: specified page of the posts.
+    :param str uid: the id of the target account.
+    :param str domain: the domain of the account.
+    :param int page: specified page of the posts.
     """
     if not domain:
         domain = get_domain(uid)

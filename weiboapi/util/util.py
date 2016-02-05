@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 """
-@Author: Rossi
-2016-01-24
+:Author: Rossi
+:Date: 2016-01-24
+
 This module contains some utility functions.
 """
 import base64
