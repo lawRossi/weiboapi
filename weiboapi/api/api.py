@@ -78,7 +78,7 @@ def login(username, password):
         if not url:
             return False
       
-        data = handle_url_request(url)
+        data = handle_request(url)
         if not data:
             return False
         json_data = get_json(data)
@@ -107,6 +107,7 @@ def check_code(data):
 def post(content):
     """
     Making a post.
+    
     :param str content: the content of the post.
     """
     data = handle_post_request(content)
@@ -130,8 +131,11 @@ def comment(mid, content):
 def get_weibos(uid, domain=None, page=1):
     """
     Retriving the specified page of Weibo posts of a specified account.
+
     :param str uid: the id of the target account.
+
     :param str domain: the domain of the account.
+    
     :param int page: specified page of the posts.
     """
     if not domain:
@@ -196,7 +200,7 @@ def get_weibo(url):
     """
     Retriving a unique Weibo post using the given url.
     """
-    data = handle_url_request(url)
+    data = handle_request(url)
     if not data:
         return None
     weibos = weibo_extractor.extract_weibos(data, True, single=True)
@@ -214,7 +218,7 @@ def get_comments(mid, page):
     """
     _time = util.get_systemtime()
     url = para.comment_url % (mid, page, _time)
-    data = handle_url_request(url)
+    data = handle_request(url)
     if not data:
         return None
 

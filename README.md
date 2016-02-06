@@ -17,4 +17,9 @@ This package supports both python2.7 and python3.4.
 This package dependends on following packages:  
 lxml  
 rsa  
-BeautifulSoup4  
+BeautifulSoup4 
+
+##Building documentation
+If you want to build documentation, the sphinx package is needed.
+To build the documentation, just swich to the docs directory and 
+type ``make`` and read the help message.

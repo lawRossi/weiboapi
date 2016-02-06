@@ -29,4 +29,10 @@ This package dependend on following packages:
  - BeautifulSoup4
 
 
+Building documentation
+----------------------
+If you want to build documentation, the sphinx package is needed.
+To build the documentation, just swich to the docs directory and 
+type ``make`` and read the help message.
+
 .. _Github: https://github.com/lawRossi/weiboapi

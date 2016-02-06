@@ -59,3 +59,6 @@ You will see the result::
     'source': u'iPhone\u5ba2\u6237\u7aef',
     'uid': None,
     'url': u'http://weibo.com/2237529652/BhfLeeVBK'}
+
+:meth:`~weiboapi.api.api.get_weibos` returns a list of instances of 
+:class:`~weiboapi.api.weibo.Weibo` class.

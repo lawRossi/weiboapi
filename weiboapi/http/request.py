@@ -29,8 +29,30 @@ opener = request.build_opener(cookie_support, request.HTTPHandler)
 request.install_opener(opener)
 
 
-def open_decode(req):
+def install_handler(func):
+    """
+    A decorator.
+    """
+    def handle(*args, **kwargs):
+        req = func(*args, **kwargs)
+        return handle_request(req)
+
+    return handle
+
+
+def handle_request(req):
+    """
+    Handling request.
+
+    :param req: the request
+    :type req: str or request.Request
+    """
     try:
+        if not isinstance(req, request.Request):
+            req = request.Request(
+                url=req,
+                headers=para.headers
+            )
         data = request.urlopen(req).read()
         return util.decode(data)
     except:
@@ -38,13 +60,14 @@ def open_decode(req):
         return None
 
 
+@install_handler
 def handle_prelogin_request(username):
     """
     """
     username = util.quote_base64_encode(username)
     st = util.get_systemtime()
     url = para.prelogin_url % (username, st)
-    return open_decode(url)
+    return url
 
 
 def handle_session_request():
@@ -82,15 +105,7 @@ def handle_login_request(username, password):
         return None
 
 
-def handle_url_request(url):
-    req = request.Request(
-        url=url,
-        headers=para.headers
-    )
-    return open_decode(req)
-    
-
-
+@install_handler
 def handle_post_request(content):
     para.post_form['text'] = content
     data = urlencode(para.post_form)
@@ -100,9 +115,10 @@ def handle_post_request(content):
         data=bytearray(data, 'utf-8'),
         headers=para.headers
     )
-    return open_decode(req)
+    return req
 
 
+@install_handler
 def handle_comment_request(mid, content):
     para.comment_form['mid'] = mid
     para.comment_form['uid'] = para.uid
@@ -114,35 +130,31 @@ def handle_comment_request(mid, content):
         data=bytearray(data, 'utf-8'),
         headers=para.headers
     )
-    return open_decode(req)
+    return req
 
 
+@install_handler
 def handle_get_weibos_request(uid, domain, page, stage=1, end_id=None):
-    try:
-        if stage == 1:
-            url = 'http://weibo.com/p/' + domain + uid \
-                + ('/home?is_all=1&page=%d' % page)
-            return open_decode(url)
-        elif stage == 2:
-            parameters = para.query_form
-            parameters['domain'] = domain
-            parameters['domain_op'] = domain
-            parameters['pre_page'] = str(page)
-            parameters['page'] = str(page)
-            parameters['end_id'] = end_id
-            parameters['pagebar'] = '0'
-            parameters['id'] = domain + uid
-            parameters['__rnd'] = util.get_systemtime()
-        else:
-            parameters = para.query_form
-            parameters['pagebar'] = '1'
-
-        url = construct_url(parameters)
+    if stage == 1:
+        url = 'http://weibo.com/p/' + domain + uid \
+            + ('/home?is_all=1&page=%d' % page)
         return open_decode(url)
-        
-    except:
-        traceback.print_exc();
-        return None
+    elif stage == 2:
+        parameters = para.query_form
+        parameters['domain'] = domain
+        parameters['domain_op'] = domain
+        parameters['pre_page'] = str(page)
+        parameters['page'] = str(page)
+        parameters['end_id'] = end_id
+        parameters['pagebar'] = '0'
+        parameters['id'] = domain + uid
+        parameters['__rnd'] = util.get_systemtime()
+    else:
+        parameters = para.query_form
+        parameters['pagebar'] = '1'
+
+    url = construct_url(parameters)
+    return url
 
 
 def construct_url(parameters):
@@ -154,25 +166,29 @@ def construct_url(parameters):
     return url
 
 
+@install_handler
 def handle_namecard_request(uid):
     url = para.newcard_url % (uid, util.get_systemtime())
-    return handle_url_request(url)
+    return url
 
 
+@install_handler
 def handle_get_relation_request(uid, domain, page, _type="followee"):
     if _type == "followee":
         url = para.get_followee_url % (domain, uid, page)
     else:
         url = para.get_follower_url % (domain, uid, page)
 
-    return handle_url_request(url)
+    return url
 
 
+@install_handler
 def handle_get_user_info_request(uid, domain):
     url = para.get_user_info_url % (domain, uid)
-    return handle_url_request(url)
+    return url
 
 
+@install_handler
 def handle_homepage_request(uid):
     url = para.home_url % uid
-    return handle_url_request(url)
+    return url

@@ -15,16 +15,17 @@ Introduction
    intro/tutorial
 
 
-Topics
-======
+Modules
+=======
 
 .. toctree::
    :maxdepth: 1
 
-   topics/api
-   topics/util
-   topics/weibo
-
+   modules/api
+   modules/item
+   modules/util
+   modules/weibo
+   
 
 Indices and tables
 ==================
