@@ -138,7 +138,7 @@ def handle_get_weibos_request(uid, domain, page, stage=1, end_id=None):
     if stage == 1:
         url = 'http://weibo.com/p/' + domain + uid \
             + ('/home?is_all=1&page=%d' % page)
-        return open_decode(url)
+        return url
     elif stage == 2:
         parameters = para.query_form
         parameters['domain'] = domain
