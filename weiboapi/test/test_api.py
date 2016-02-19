@@ -27,15 +27,16 @@ def test_login():
 #     print(domain)
 
 
-# def test_get_weibos():
-#     weibos = get_weibos("2237529652", "100505", page=2)
+def test_get_weibos():
+    weibos = get_weibos("2237529652", "100505", page=2)
 
-# #     #weibos = get_weibos("2864766784")
-#     print(len(weibos))
-#     weibos = get_weibos("1750070171", "100206")
-#     print(len(weibos))
+    # weibos = get_weibos("2864766784")
+    print(len(weibos))
 
+    # weibos = get_weibos("1750070171", "100206")
+    # print(len(weibos))
     
+
 # def test_get_weibo():
 #     weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
 #     print(weibo)
@@ -51,11 +52,11 @@ def test_login():
 #     print(account)
 
 
-def test_get_relation():
-    followees = get_relation("2683295213", "100505")
-    print(len(followees))
-    followers = get_relation("2683295213", "100505", _type="follower")
-    print(len(followers))
+# def test_get_relation():
+#     followees = get_relation("2683295213", "100505")
+#     print(len(followees))
+#     followers = get_relation("2683295213", "100505", _type="follower")
+#     print(len(followers))
 
 
 # def test_get_user_info():

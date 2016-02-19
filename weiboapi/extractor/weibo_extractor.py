@@ -154,12 +154,12 @@ class NumberInfoExtractor(FieldExtractor):
                         weibo['comment_number'] = int(splits[1])
 
 
-
 class MidExtractor(FieldExtractor):
     def extract(self, div, weibo):
         weibo['mid'] = div.attrib.get('mid')
         omid = div.attrib.get('omid')
-        if omid != None:
+        weibo['uid'] = div.attrib.get('ouid')
+        if omid:
             weibo['is_repost'] = True
             weibo['omid'] = omid
         else:
