@@ -27,7 +27,7 @@ class AccountExtractor():
                 account[keys[i]] = v
             text = html.xpath('.//div[@class="intro W_autocut"]/span/text()')
             if text:
-                account["discription"] = text[0].strip()
+                account["description"] = text[0].strip()
             text = html.xpath('.//li[@class="info_li"]/a/text()')
             if text:
                 account["area"] = text[0].strip()

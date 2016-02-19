@@ -15,7 +15,7 @@ class Account(Item):
     home_url = Field()
     gender = Field()
     area = Field()
-    discription = Field()
+    description = Field()
     tags = Field()
     follower_number = Field()
     followee_number = Field()
