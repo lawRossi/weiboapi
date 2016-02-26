@@ -8,6 +8,7 @@ from lxml import etree
 import traceback
 from weiboapi.util import util
 import re
+from weiboapi.api.weibo import Weibo
 
 # deal with py2 encoding problem
 import sys
@@ -18,9 +19,11 @@ except:
     pass
 
 
+ID_LENGTH = 10
+
+
 class WeiboExtractor():
     def __init__(self, weibo_class):
-        self.weibo_class = weibo_class
         self.install_extractors(weibo_class)
 
     def install_extractors(self, weibo_class):
@@ -46,17 +49,16 @@ class WeiboExtractor():
         weibos = []
 
         for div in divs:
-            try:
-                weibo = self.weibo_class()
-                for extractor in self.extractors:
+            weibo = Weibo()
+            for extractor in self.extractors:
+                try:
                     extractor.extract(div, weibo)
-                weibos.append(weibo)
-            except:
-                traceback.print_exc()
-                continue
+                except:
+                    traceback.print_exc()
+                    continue
+            weibos.append(weibo)
 
         return weibos
-   
 
     def extract_content_html(self, html, single=False):
         """
@@ -72,7 +74,7 @@ class WeiboExtractor():
                 scripts, r'pl.content.weiboDetail.index'
             )
         text = script.text.strip()
-        return util.extract_html_from_script(text)   
+        return util.extract_html_from_script(text)
 
 
 class FieldExtractor():
@@ -80,7 +82,7 @@ class FieldExtractor():
         pass
 
 
-class ContentExtractor(FieldExtractor): 
+class ContentExtractor(FieldExtractor):
     def extract(self, div, weibo):
         """
         Extracting weibo content from the given div elment.
@@ -158,8 +160,10 @@ class MidExtractor(FieldExtractor):
     def extract(self, div, weibo):
         weibo['mid'] = div.attrib.get('mid')
         omid = div.attrib.get('omid')
-        weibo['uid'] = div.attrib.get('ouid')
-        if omid:
+        tbinfo = div.attrib.get('tbinfo')
+        index = tbinfo.find("ouid=")
+        weibo['uid'] = tbinfo[index+5:index+15]
+        if omid is not None:
             weibo['is_repost'] = True
             weibo['omid'] = omid
         else:
@@ -175,7 +179,7 @@ class DateSouceExtractor(FieldExtractor):
         if len(new_div) == 1:
             new_div = new_div[0]
         elif len(new_div) == 2:
-            new_div = new_div[1]       
+            new_div = new_div[1]
         date = new_div.xpath(r'.//a[@node-type="feed_list_item_date"]')[0]
         weibo['date'] = util.timestamp_to_date(int(date.attrib.get('date')[:-3]))
         source = new_div.xpath(r'.//a/text()')[1]
@@ -189,14 +193,14 @@ class UrlExtractor(FieldExtractor):
         """
         weibo_handle = div.xpath(r'.//div[@class="WB_handle"]')[0]
         action_datas = weibo_handle.xpath(r'.//a[@class="S_txt2"]/@action-data')
-        
+
         if len(action_datas) == 3:
             action_data = action_datas[0]
             if weibo["is_repost"]:
                 root_url = re.findall("rooturl=([a-zA-Z0-9/:.]*)", action_data)
                 if len(root_url) == 1:
                     weibo["root_url"] = root_url[0]
-                    
+
         url = re.findall("&url=([a-zA-Z0-9/:.]*)", action_data)
         if len(url) == 1:
             weibo["url"] = url[0]
@@ -234,6 +238,6 @@ class MediaInfoExtractor(FieldExtractor):
                     text = link.xpath(".//text()")
                     if len(text) == 1:
                         link_texts += text[0].strip() + "||"
-                    
+
                 weibo['links'] = ls
                 weibo['link_text'] = link_texts

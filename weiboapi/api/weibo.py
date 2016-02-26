@@ -20,7 +20,7 @@ class Weibo(Item):
     comment_number = Field(0)
     repost_number = Field(0)
     pictures = Field()
-    is_repost = Field(False)
+    is_repost = Field()
     date = Field()
     source = Field()
     url = Field()

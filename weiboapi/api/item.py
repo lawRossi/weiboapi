@@ -37,19 +37,22 @@ class DictItem(MutableMapping):
     fields = {}
 
     def __init__(self, *args, **kwargs):
+        self._values = {}
         if args or kwargs:  # avoid creating dict for most common case
             for k, v in six.iteritems(dict(*args, **kwargs)):
                 self[k] = v
+        for k, v in self.fields.items():
+            self._values[k] = v
 
     def __getitem__(self, key):
-        return self.fields[key]
+        return self._values[key]
 
     def __setitem__(self, key, value):
         if key in self.fields:
-            self.fields[key] = value
+            self._values[key] = value
         else:
             raise KeyError("%s does not support field: %s" %
-                (self.__class__.__name__, key))
+                           (self.__class__.__name__, key))
 
     def __delitem__(self, key):
         del self.fields[key]
