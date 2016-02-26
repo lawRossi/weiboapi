@@ -136,24 +136,32 @@ class NumberInfoExtractor(FieldExtractor):
         spans = weibo_handle.xpath(
             r'.//span[@class="line S_line1"]'
         )
-        if len(spans) == 4:
-            for i, span in enumerate(spans[1:]):
-                if i == 2:
-                    text = span.xpath('.//em/text()')
 
-                    if len(text) == 0:
-                        weibo['like_number'] = 0
-                    elif len(text) == 1:
-                        weibo['like_number'] = int(text[0])
-                    continue
-                else:
-                    text = span.xpath("./text()")[0]
-                splits = text.split()
-                if len(splits) == 2:
-                    if splits[0] == '转发':
-                        weibo['repost_number'] = int(splits[1])
-                    else:
-                        weibo['comment_number'] = int(splits[1])
+        if len(spans) == 4:
+            spans = spans[1:]
+
+        for i, span in enumerate(spans):
+            if i == 2:
+                text = span.xpath('.//em/text()')
+
+                if len(text) == 0:
+                    weibo['like_number'] = 0
+                elif len(text) == 1:
+                    weibo['like_number'] = int(text[0])
+                continue
+            else:
+                text = span.xpath("./text()")[0]
+            splits = text.split()
+            if len(splits) == 2:
+                if splits[0] == '转发':
+                    weibo['repost_number'] = int(splits[1])
+                elif splits[0] == '评论':
+                    weibo['comment_number'] = int(splits[1])
+            elif len(splits) == 1:
+                if splits[0] == '转发':
+                    weibo['repost_number'] = 0
+                elif splits[0] == '评论':
+                    weibo['comment_number'] = 0
 
 
 class MidExtractor(FieldExtractor):

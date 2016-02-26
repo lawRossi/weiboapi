@@ -23,7 +23,7 @@ class ItemMeta(ABCMeta):
         for n in dir(_class):
             v = getattr(_class, n)
             if isinstance(v, Field):
-                fields[n] = v.value
+                fields[n] = v
             elif n in attrs:
                 new_attrs[n] = attrs[n]
 
@@ -41,11 +41,13 @@ class DictItem(MutableMapping):
         if args or kwargs:  # avoid creating dict for most common case
             for k, v in six.iteritems(dict(*args, **kwargs)):
                 self[k] = v
-        for k, v in self.fields.items():
-            self._values[k] = v
 
     def __getitem__(self, key):
-        return self._values[key]
+        if key in self.fields:
+            if key in self._values:
+                return self._values[key]
+            else:
+                return self.fields[key].value
 
     def __setitem__(self, key, value):
         if key in self.fields:
@@ -55,8 +57,8 @@ class DictItem(MutableMapping):
                            (self.__class__.__name__, key))
 
     def __delitem__(self, key):
-        del self.fields[key]
-        self.fields[key] = None
+        del self._values[key]
+        self._values[key] = None
 
     def __getattr__(self, name):
         if name in self.fields:
