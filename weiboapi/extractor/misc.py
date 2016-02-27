@@ -17,26 +17,22 @@ def extract_domain(doc):
 
 
 def extract_relation(doc):
-    try:
-        scripts = util.extract_script(doc)
-        script = util.select_script(scripts, r'pl.content.followTab.index')
-        html = util.extract_html_from_script(script.text.strip())
-        html = etree.HTML(html)
-        datas = html.xpath(r'.//ul[@class="follow_list"]/li/@action-data')
-        followees = []
-        for data in datas:
+    scripts = util.extract_script(doc)
+    script = util.select_script(scripts, r'pl.content.followTab.index')
+    html = util.extract_html_from_script(script.text.strip())
+    html = etree.HTML(html)
+    datas = html.xpath(r'.//ul[@class="follow_list"]/li/@action-data')
+    for data in datas:
+        try:
             followee = {}
             splits = data.split("&")
             for split in splits:
                 _splits = split.split("=")
                 followee[_splits[0]] = _splits[1]
-
-            followees.append(followee)
-
-        return followees
-    except:
-        traceback.print_exc()
-        return None
+            yield followee
+        except:
+            traceback.print_exc()
+            continue
 
 
 def extract_user_info(doc):

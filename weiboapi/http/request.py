@@ -134,7 +134,7 @@ def handle_comment_request(mid, content):
 
 
 @install_handler
-def handle_get_weibos_request(uid, domain, page, stage=1, end_id=None):
+def handle_get_weibos_request(uid, domain, page, stage=1):
     if stage == 1:
         url = 'http://weibo.com/p/' + domain + uid \
             + ('/home?is_all=1&page=%d' % page)
@@ -145,7 +145,6 @@ def handle_get_weibos_request(uid, domain, page, stage=1, end_id=None):
         parameters['domain_op'] = domain
         parameters['pre_page'] = str(page)
         parameters['page'] = str(page)
-        parameters['end_id'] = end_id
         parameters['pagebar'] = '0'
         parameters['id'] = domain + uid
         parameters['__rnd'] = util.get_systemtime()

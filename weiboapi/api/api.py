@@ -77,7 +77,7 @@ def login(username, password):
         url = extract_url(data)
         if not url:
             return False
-      
+
         data = handle_request(url)
         if not data:
             return False
@@ -86,7 +86,7 @@ def login(username, password):
             para.uid = json_data['userinfo']['uniqueid']
             return True
         else:
-            return False       
+            return False
     except:
         traceback.print_exc()
         return False
@@ -107,7 +107,7 @@ def check_code(data):
 def post(content):
     """
     Making a post.
-    
+
     :param str content: the content of the post.
     """
     data = handle_post_request(content)
@@ -135,7 +135,7 @@ def get_weibos(uid, domain=None, page=1):
     :param str uid: the id of the target account.
 
     :param str domain: the domain of the account.
-    
+
     :param int page: specified page of the posts.
     """
     if not domain:
@@ -148,8 +148,7 @@ def get_weibos(uid, domain=None, page=1):
     else:
         weibos.extend(new_weibos)
 
-    end_id = weibos[0]["mid"]
-    new_weibos = request_weibos(uid, domain, page, 2, end_id)
+    new_weibos = request_weibos(uid, domain, page, 2)
     if not new_weibos:
         return weibos
     else:

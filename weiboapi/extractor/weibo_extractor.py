@@ -189,7 +189,9 @@ class DateSouceExtractor(FieldExtractor):
         elif len(new_div) == 2:
             new_div = new_div[1]
         date = new_div.xpath(r'.//a[@node-type="feed_list_item_date"]')[0]
-        weibo['date'] = util.timestamp_to_date(int(date.attrib.get('date')[:-3]))
+        weibo['date'] = util.timestamp_to_date(
+            int(date.attrib.get('date')[:-3])
+            )
         source = new_div.xpath(r'.//a/text()')[1]
         weibo['source'] = source
 
@@ -200,7 +202,8 @@ class UrlExtractor(FieldExtractor):
         Extracting the url(s) of weibo
         """
         weibo_handle = div.xpath(r'.//div[@class="WB_handle"]')[0]
-        action_datas = weibo_handle.xpath(r'.//a[@class="S_txt2"]/@action-data')
+        action_datas = weibo_handle.xpath(
+            r'.//a[@class="S_txt2"]/@action-data')
 
         if len(action_datas) == 3:
             action_data = action_datas[0]
