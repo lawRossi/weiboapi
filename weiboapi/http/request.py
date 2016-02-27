@@ -77,7 +77,7 @@ def handle_session_request():
     except:
         traceback.print_exc()
         return False
-   
+
 
 def handle_login_request(username, password):
     psw = util.encrypt_password(
@@ -172,11 +172,11 @@ def handle_namecard_request(uid):
 
 
 @install_handler
-def handle_get_relation_request(uid, domain, page, _type="followee"):
+def handle_get_relation_request(uid, page, _type="followee"):
     if _type == "followee":
-        url = para.get_followee_url % (domain, uid, page)
+        url = para.get_followee_url % (uid, page)
     else:
-        url = para.get_follower_url % (domain, uid, page)
+        url = para.get_follower_url % (uid, page)
 
     return url
 

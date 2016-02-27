@@ -28,9 +28,9 @@ newcard_url = 'http://weibo.com/aj/v6/user/newcard?ajwvr=6&id=%s' \
 
 comment_url = 'http://weibo.com/aj/v6/comment/big?ajwvr=6&id=%s&max_id=''&page=%d&__rnd=%s'
 
-get_followee_url = 'http://weibo.com/p/%s%s/follow?page=%d'
+get_followee_url = 'http://weibo.com/%s/follow?rightmod=1&wvr=6&page=%d'
 
-get_follower_url = 'http://weibo.com/p/%s%s/follow?relate=fans&page=%d'
+get_follower_url = 'http://weibo.com/%s/fans?rightmod=1&wvr=6&page=%d'
 
 get_user_info_url = 'http://weibo.com/p/%s%s/info'
 
@@ -40,7 +40,7 @@ big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'
 
 servertime = None
 
-uid = ''  #the id of the "login account".
+uid = ''  # the id of the "login account".
 
 request_body = {
     'entry': 'weibo',

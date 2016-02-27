@@ -4,15 +4,16 @@
 2016-01-23
 """
 from weiboapi.api.api import *
+import codecs
+
+
 # def test_get_prelogin_parameters():
 #     assert get_prelogin_parameters("xiaocailuoxi@sina.com") == True
 
 
 def test_login():
-    #assert login("xiaocailuoxi@sina.com", "xiaocai") == False
+    # assert login("xiaocailuoxi@sina.com", "xiaocai") == False
     assert login("xiaocailuoxi@sina.com", "xiaocailuoxi03") == True
-
-
 
 # def test_post():
 #     assert post("[哈哈]") == True
@@ -27,24 +28,30 @@ def test_login():
 #     print(domain)
 
 
-def test_get_weibos():
-    weibos = get_weibos("2237529652", "100505", page=2)
+# def test_get_weibos():
+#     # weibos = get_weibos("2237529652", "100505", page=2)
+#     weibos = get_weibos("2828172374", "100505")
+#     # weibos = get_weibos("2864766784")
+#     mids1 = [weibo["mid"] for weibo in weibos]
+#     fi = codecs.open("temp.txt", encoding="utf-8")
+#     mids2 = [line.strip() for line in fi]
+#     fi.close()
+#     assert mids1 == mids2
 
-    # weibos = get_weibos("2864766784")
-    print(len(weibos))
+#     # weibos = get_weibos("1750070171", "100206")
+#     # print(len(weibos))
 
-    # weibos = get_weibos("1750070171", "100206")
-    # print(len(weibos))
-    
 
 # def test_get_weibo():
-#     weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
+#     weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
 #     print(weibo)
-
+#     weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
+#     print(weibo)
 
 # def test_get_comments():
 #     comments = get_comments("3938833714291022", 1)
-#     print(comments)
+#     for comment in comments:
+#         print(comment)
 
 
 # def test_get_account():
@@ -52,11 +59,12 @@ def test_get_weibos():
 #     print(account)
 
 
-# def test_get_relation():
-#     followees = get_relation("2683295213", "100505")
-#     print(len(followees))
-#     followers = get_relation("2683295213", "100505", _type="follower")
-#     print(len(followers))
+def test_get_relation():
+    followees = get_relation("2683295213", 2)
+    print(list(followees))
+    print("######################")
+    followers = get_relation("2683295213", _type="follower")
+    print(list(followers))
 
 
 # def test_get_user_info():

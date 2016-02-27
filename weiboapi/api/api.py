@@ -256,7 +256,7 @@ def get_domain(uid):
     return extract_domain(data)
 
 
-def get_relation(uid, domain=None, page=1, _type="followee"):
+def get_relation(uid, page=1, _type="followee"):
     """
     Retriving the relations of an account.
     uid: the id of the account.
@@ -264,9 +264,7 @@ def get_relation(uid, domain=None, page=1, _type="followee"):
     page: the specified page.
     _type: the type of the relations (followee or follower)
     """
-    if not domain:
-        domain = get_domain(uid)
-    data = handle_get_relation_request(uid, domain, page, _type)
+    data = handle_get_relation_request(uid, page, _type)
     if not data:
         return
 
