@@ -163,7 +163,7 @@ def get_weibos(uid, domain=None, page=1):
     return weibos
 
 
-def request_weibos(uid, domain, page, stage, end_id=None):
+def request_weibos(uid, domain, page, stage):
     if stage == 1:
         data = handle_get_weibos_request(uid, domain, page)
         if not data:
@@ -172,7 +172,7 @@ def request_weibos(uid, domain, page, stage, end_id=None):
         return check_weibos(weibos)
 
     elif stage == 2:
-        data = handle_get_weibos_request(uid, domain, page, stage, end_id)
+        data = handle_get_weibos_request(uid, domain, page, stage)
         if not data:
             return None
         json_data = json.loads(data)
