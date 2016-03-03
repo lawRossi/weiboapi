@@ -46,7 +46,6 @@ def check_status(r):
     return r.status_code == OK
 
 
-
 def decode(data, charset=None):
     if isinstance(data, bytes):
         if not charset:
@@ -60,10 +59,10 @@ def decode(data, charset=None):
 def encrypt_password(p, st, nonce, pk, rsakv):
     """
     Encrypting the password using rsa algorithm.
-    p: password 
-    st: server time 
-    nonce: random value 
-    pk: public key 
+    p: password
+    st: server time
+    nonce: random value
+    pk: public key
     rsakv: rsa key value
     """
     pk = '0x' + pk

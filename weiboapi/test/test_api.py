@@ -42,11 +42,11 @@ def test_login():
     # print(len(weibos))
 
 
-def test_get_weibo():
-    weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
-    print(weibo)
-#     weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
+# def test_get_weibo():
+#     weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
 #     print(weibo)
+# #     weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
+# #     print(weibo)
 
 # def test_get_comments():
 #     comments = get_comments("3938833714291022", 1)
@@ -75,3 +75,10 @@ def test_get_weibo():
 # def test_is_verified():
 #     assert is_verified("1825436514") == False
 #     assert is_verified("1750070171") == True
+
+
+def test_search_user():
+    users = search_user("足球")
+    print(len(users))
+    for user in users:
+        print(user)

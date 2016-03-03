@@ -7,6 +7,8 @@ than Weibo, comment and account.
 import traceback
 from lxml import etree
 from weiboapi.util import util
+import re
+import json
 
 
 def extract_domain(doc):
@@ -52,3 +54,46 @@ def extract_user_info(doc):
     except:
         traceback.print_exc()
         return None
+
+
+def extract_user(doc, page_num=None):
+    try:
+        scripts = util.extract_script(doc)
+        script = util.select_script(scripts, r'"pid":"pl_user_feedList"')
+        json_data = re.findall("\(({.*})\)", script.text)[0]
+        json_data = json.loads(json_data)
+        html = etree.HTML(json_data["html"])
+        divs = html.xpath(r'//div[@class="list_person clearfix"]')
+        users = []
+        for div in divs:
+            try:
+                user = {}
+                detail = div.xpath(r'.//div[@class="person_detail"]')[0]
+                _as = detail.xpath(r'.//p[@class="person_name"]/a')
+                if len(_as) >= 1:
+                    user["uid"] = _as[0].attrib.get("uid")
+                    user["nick"] = _as[0].attrib.get("title")
+                    user["home_url"] = _as[0].attrib.get("href")
+                    if len(_as) > 1:
+                        if _as[1].attrib.get("alt") != None:
+                            user["verify"] = _as[1].attrib.get("alt")
+
+                users.append(user)
+            except:
+                traceback.print_exc()
+                continue
+        if page_num:
+            try:
+                lis = html.xpath(r'//span[@class="list"]/div/ul/li')
+                text = lis[-1].xpath(".//text()")[0]
+                total = int(text[1:-1])
+                return users, total
+            except:
+                return users, 1
+        else:
+            return users
+    except:
+        if page_num:
+            return None, None
+        else:
+            return None

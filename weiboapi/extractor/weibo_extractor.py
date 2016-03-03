@@ -41,11 +41,11 @@ class WeiboExtractor():
         """
         Extracting weibos from the html document.
         """
-        if first:
-            doc = self.extract_content_html(doc, single)
-
         weibos = []
         try:
+            if first:
+                doc = self.extract_content_html(doc, single)
+
             html = etree.HTML(doc)
             divs = html.xpath(r'//div[@action-type="feed_list_item"]')
 

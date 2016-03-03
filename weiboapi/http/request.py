@@ -191,3 +191,13 @@ def handle_get_user_info_request(uid, domain):
 def handle_homepage_request(uid):
     url = para.home_url % uid
     return url
+
+
+@install_handler
+def handle_search_user_request(word, page=1):
+    word = request.quote(word)
+    word = request.quote(word)
+    url = para.search_user_url % word
+    if page > 1:
+        url = url + "?page=%d" % page
+    return url

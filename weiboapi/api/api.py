@@ -293,3 +293,11 @@ def is_verified(uid):
     if data.find("verify_area") != -1:
         return True
     return False
+
+
+def search_user(word, page=1, page_num=False):
+    data = handle_search_user_request(word, page)
+    if not data:
+        return None
+    else:
+        return extract_user(data, page_num)
