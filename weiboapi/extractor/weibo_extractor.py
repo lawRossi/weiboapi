@@ -44,20 +44,22 @@ class WeiboExtractor():
         if first:
             doc = self.extract_content_html(doc, single)
 
-        html = etree.HTML(doc)
-        divs = html.xpath(r'//div[@action-type="feed_list_item"]')
         weibos = []
+        try:
+            html = etree.HTML(doc)
+            divs = html.xpath(r'//div[@action-type="feed_list_item"]')
 
-        for div in divs:
-            weibo = Weibo()
-            for extractor in self.extractors:
-                try:
-                    extractor.extract(div, weibo)
-                except:
-                    traceback.print_exc()
-                    continue
-            weibos.append(weibo)
-
+            for div in divs:
+                weibo = Weibo()
+                for extractor in self.extractors:
+                    try:
+                        extractor.extract(div, weibo)
+                    except:
+                        traceback.print_exc()
+                        continue
+                weibos.append(weibo)
+        except:
+            traceback.print_exc()
         return weibos
 
     def extract_content_html(self, html, single=False):
