@@ -95,28 +95,33 @@ class ContentExtractor(FieldExtractor):
         at_text = ""
         # iterating the elements and appends their text.
         for child in node.children:
-            if child.name == 'img':
+            if not hasattr(child, "name") or child.name is None:
+                t = str(child)
+                text += t.strip()
+
+            elif child.name == 'img':
                 if child.has_attr('title'):
                     text += str(child['title'])
                     img_text += str(child['title']) + " "
-            elif child.name is None:
-                t = str(child)
-                text += t.strip()
+
             elif child.name == 'a':
                 if child.has_attr('render'):
                     text += " %s " % child.text
                     at_text += child.text + " "
                 else:
                     text += child.text
+
             elif child.name == 'em':
                 for c in child.children:
-                    if c.name == 'img':
+                    if not hasattr(c, "name") or c.name is None:
+                        t = str(c)
+                        text += t.strip()
+
+                    elif c.name == 'img':
                         if c.has_attr('title'):
                             text += c['title'].strip()
                             img_text += str(c['title']) + " "
-                    elif c.name is None:
-                        t = str(c)
-                        text += t.strip()
+
                     elif c.name == 'a':
                         if c.has_attr('render'):
                             text += " %s " % c.text

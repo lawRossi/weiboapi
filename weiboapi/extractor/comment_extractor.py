@@ -50,15 +50,15 @@ class CommentExtractor():
         text = ""
         # iterating the elements and appends their text.
         for child in node.children:
+            if not hasattr(child, "name") or child.name is None:
+                t = str(child)
+                text += t.strip()
+
             if child.name == 'img':
                 if child.has_attr('title'):
                     text += child['title']
                 elif child.has_attr('alt'):
                     text += child['alt']
-
-            elif child.name is None:
-                t = str(child)
-                text += t.strip()
 
             elif child.name == 'a':
                 if child.has_attr('render'):
@@ -68,14 +68,16 @@ class CommentExtractor():
 
             elif child.name == 'em':
                 for c in child.children:
-                    if c.name == 'img':
+                    if not hasattr(c, "name") or c.name is None:
+                        t = str(c)
+                        text += t.strip()
+
+                    elif c.name == 'img':
                         if child.has_attr('title'):
                             text += child['title']
                         elif child.has_attr('alt'):
                             text += child['alt']
-                    elif c.name is None:
-                        t = str(c)
-                        text += t.strip()
+
                     elif c.name == 'a':
                         if child.has_attr('render'):
                             text += " %s " % c.text

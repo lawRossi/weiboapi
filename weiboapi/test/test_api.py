@@ -38,13 +38,13 @@ def test_login():
 #     fi.close()
 #     assert mids1 == mids2
 
-#     # weibos = get_weibos("1750070171", "100206")
-#     # print(len(weibos))
+    # weibos = get_weibos("1750070171", "100206")
+    # print(len(weibos))
 
 
-# def test_get_weibo():
-#     weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
-#     print(weibo)
+def test_get_weibo():
+    weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
+    print(weibo)
 #     weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
 #     print(weibo)
 
@@ -59,12 +59,12 @@ def test_login():
 #     print(account)
 
 
-def test_get_relation():
-    followees = get_relation("2683295213", 2)
-    print(list(followees))
-    print("######################")
-    followers = get_relation("2683295213", _type="follower")
-    print(list(followers))
+# def test_get_relation():
+#     followees = get_relation("2683295213", 2)
+#     print(list(followees))
+#     print("######################")
+#     followers = get_relation("2683295213", _type="follower")
+#     print(list(followers))
 
 
 # def test_get_user_info():
