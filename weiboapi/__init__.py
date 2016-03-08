@@ -4,10 +4,11 @@
 """
 
 __all__ = [
-    "login", "get_account", "post", "comment", 
+    "login", "get_account", "post", "comment",
     "get_weibos", "get_comments", "is_verified",
-    "get_weibo", "get_domain", "get_relation", 
-    "get_user_info", "Account", "Comment", "Weibo"
+    "get_weibo", "get_domain", "get_relation",
+    "get_user_info", "Account", "Comment", "Weibo",
+    "search_user"
 ]
 
 from weiboapi.api.api import login, get_account, post
@@ -15,6 +16,7 @@ from weiboapi.api.api import comment, get_weibos
 from weiboapi.api.api import get_comments, is_verified
 from weiboapi.api.api import get_weibo, get_domain
 from weiboapi.api.api import get_relation, get_user_info
+from weiboapi.api.api import search_user
 from weiboapi.api.account import Account
 from weiboapi.api.comment import Comment
 from weiboapi.api.weibo import Weibo
