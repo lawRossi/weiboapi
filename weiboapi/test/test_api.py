@@ -28,12 +28,11 @@ def test_login():
 #     print(domain)
 
 
-# def test_get_weibos():
-#     weibos = get_weibos("2237529652", "100505")
-#     # weibos = get_weibos("2828172374", "100505")
-#     for weibo in weibos:
-#         if weibo['repost_number'] != 0:
-#             print(weibo)
+def test_get_weibos():
+    weibos = get_weibos("2237529652", "100505", 2)
+    print(weibos)
+    weibos = get_weibos("2828172374", "100505")
+    print(weibos)
     # # weibos = get_weibos("2864766784")
     # mids1 = [weibo["mid"] for weibo in weibos]
     # fi = codecs.open("temp.txt", encoding="utf-8")
@@ -45,13 +44,13 @@ def test_login():
     # print(weibos)
 
 
-def test_get_weibo():
-    weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
-    print(weibo)
-    # weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
-    # print(weibo)
-    weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
-    print(weibo)
+# def test_get_weibo():
+#     weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
+#     print(weibo)
+#     # weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
+#     # print(weibo)
+#     weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
+#     print(weibo)
 
 # def test_get_comments():
 #     comments = get_comments("3938833714291022", 1)

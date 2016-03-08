@@ -21,7 +21,7 @@ post_url = 'http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=%s'
 
 post_comment_url = 'http://weibo.com/aj/v6/comment/add?ajwvr=6&__rnd=%s'
 
-get_weibo_url = 'http://weibo.com/p/%s%s/home?is_all=1&page=%d'
+get_weibo_url = 'http://weibo.com/u/%s/home?wvr=6&page=%d'
 
 query_url = 'http://weibo.com/p/aj/v6/mblog/mbloglist'  # for quering weibo content
 
