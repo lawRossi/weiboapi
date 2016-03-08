@@ -29,24 +29,29 @@ def test_login():
 
 
 # def test_get_weibos():
-#     # weibos = get_weibos("2237529652", "100505", page=2)
-#     weibos = get_weibos("2828172374", "100505")
-#     # weibos = get_weibos("2864766784")
-#     mids1 = [weibo["mid"] for weibo in weibos]
-#     fi = codecs.open("temp.txt", encoding="utf-8")
-#     mids2 = [line.strip() for line in fi]
-#     fi.close()
-#     assert mids1 == mids2
+#     weibos = get_weibos("2237529652", "100505")
+#     # weibos = get_weibos("2828172374", "100505")
+#     for weibo in weibos:
+#         if weibo['repost_number'] != 0:
+#             print(weibo)
+    # # weibos = get_weibos("2864766784")
+    # mids1 = [weibo["mid"] for weibo in weibos]
+    # fi = codecs.open("temp.txt", encoding="utf-8")
+    # mids2 = [line.strip() for line in fi]
+    # fi.close()
+    # assert mids1 == mids2
 
     # weibos = get_weibos("1750070171", "100206")
-    # print(len(weibos))
+    # print(weibos)
 
 
-# def test_get_weibo():
-#     weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
-#     print(weibo)
-# #     weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
-# #     print(weibo)
+def test_get_weibo():
+    weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
+    print(weibo)
+    # weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
+    # print(weibo)
+    weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
+    print(weibo)
 
 # def test_get_comments():
 #     comments = get_comments("3938833714291022", 1)
@@ -77,8 +82,8 @@ def test_login():
 #     assert is_verified("1750070171") == True
 
 
-def test_search_user():
-    users = search_user("足球")
-    print(len(users))
-    for user in users:
-        print(user)
+# def test_search_user():
+#     users = search_user("足球")
+#     print(len(users))
+#     for user in users:
+#         print(user)

@@ -136,8 +136,7 @@ def handle_comment_request(mid, content):
 @install_handler
 def handle_get_weibos_request(uid, domain, page, stage=1):
     if stage == 1:
-        url = 'http://weibo.com/p/' + domain + uid \
-            + ('/home?is_all=1&page=%d' % page)
+        url = para.get_weibo_url % (domain, uid, page)
         return url
     elif stage == 2:
         parameters = para.query_form

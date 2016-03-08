@@ -135,40 +135,46 @@ class ContentExtractor(FieldExtractor):
 
 
 class NumberInfoExtractor(FieldExtractor):
+    def __init__(self):
+        self.p = re.compile("\d+")
+
     def extract(self, div, weibo):
         """
         Extracting repost_number, like_number, comment_number
         """
         weibo_handle = div.xpath(r'.//div[@class="WB_handle"]')[0]
-        spans = weibo_handle.xpath(
-            r'.//span[@class="line S_line1"]'
-        )
+        spans = weibo_handle.xpath(r'.//span[@node-type="comment_btn_text"]')
+        if spans:
+            span = spans[0]
+            weibo['comment_number'] = self.extract_number(span)
 
-        if len(spans) == 4:
-            spans = spans[1:]
+        spans = weibo_handle.xpath(r'.//span[@node-type="forward_btn_text"]')
+        if spans:
+            span = spans[0]
+            weibo['repost_number'] = self.extract_number(span)
 
-        for i, span in enumerate(spans):
-            if i == 2:
-                text = span.xpath('.//em/text()')
+        spans = weibo_handle.xpath(r'.//span[@node-type="like_status"]')
+        if spans:
+            span = spans[0]
+            weibo['like_number'] = self.extract_number(span, like=True)
 
-                if len(text) == 0:
-                    weibo['like_number'] = 0
-                elif len(text) == 1:
-                    weibo['like_number'] = int(text[0])
-                continue
-            else:
-                text = span.xpath("./text()")[0]
-            splits = text.split()
-            if len(splits) == 2:
-                if splits[0] == '转发':
-                    weibo['repost_number'] = int(splits[1])
-                elif splits[0] == '评论':
-                    weibo['comment_number'] = int(splits[1])
-            elif len(splits) == 1:
-                if splits[0] == '转发':
-                    weibo['repost_number'] = 0
-                elif splits[0] == '评论':
-                    weibo['comment_number'] = 0
+    def extract_number(self, span, like=False):
+        if not like:
+            text = span.xpath("./text()")
+        else:
+            text = span.xpath(".//em/text()")
+        if text:
+            text = text[0]
+        else:
+            text = span.xpath(".//em/text()")
+            if text:
+                text = text[1]
+        if not text:
+            return 0
+        match = self.p.search(text)
+        if match:
+            return int(match.group())
+        return 0
 
 
 class MidExtractor(FieldExtractor):

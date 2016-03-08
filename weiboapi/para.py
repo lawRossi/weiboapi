@@ -21,6 +21,8 @@ post_url = 'http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=%s'
 
 post_comment_url = 'http://weibo.com/aj/v6/comment/add?ajwvr=6&__rnd=%s'
 
+get_weibo_url = 'http://weibo.com/p/%s%s/home?is_all=1&page=%d'
+
 query_url = 'http://weibo.com/p/aj/v6/mblog/mbloglist'  # for quering weibo content
 
 newcard_url = 'http://weibo.com/aj/v6/user/newcard?ajwvr=6&id=%s' \
@@ -68,9 +70,10 @@ request_body = {
 }  # used by login requests.
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36' \
-    + '(KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36',
-    'Connection': 'keep-alive'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36' +
+    ' (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36',
+    'Accept-Language': 'zh-CN,zh;q=0.8',
+    'Referer': 'http://weibo.com'
 }
 
 
