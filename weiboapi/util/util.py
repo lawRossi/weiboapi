@@ -15,6 +15,7 @@ except:
     from urllib.request import quote
 from bs4 import BeautifulSoup
 import json
+import re
 
 
 OK = 200
@@ -46,7 +47,28 @@ def check_status(r):
     return r.status_code == OK
 
 
+def check_code(data):
+    """
+    Checking the response code. If the request is handled correctly,
+    the code would be '100000'.
+
+    :param data str: the data returned by the server, which is in json format.
+    """
+    json_data = json.loads(data)
+    if json_data["code"] == "100000":
+        return True
+    else:
+        return False
+
+
 def decode(data, charset=None):
+    """
+    Decoding a bytes object.
+
+    :param data bytes: the data to decode.
+
+    :param charset str: the specified charset
+    """
     if isinstance(data, bytes):
         if not charset:
             return data.decode("utf-8")
@@ -122,3 +144,15 @@ def clean_text(text):
     text = text.replace("\n", " ")
     text = text.replace("  ", " ")
     return text
+
+
+p = re.compile('\((.*)\)')
+
+
+def get_json(data):
+    """
+    Extracting json data from the given string.
+    """
+    json_data = p.search(data).group(1)
+    json_data = json.loads(json_data)
+    return json_data

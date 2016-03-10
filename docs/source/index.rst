@@ -24,7 +24,7 @@ Modules
    modules/api
    modules/item
    modules/util
-   modules/weibo
+   modules/data_object_class
    
 
 Indices and tables

@@ -16,21 +16,12 @@ from weiboapi.extractor.comment_extractor import CommentExtractor
 from .comment import Comment
 from weiboapi.extractor.account_extractor import AccountExtractor
 from weiboapi.extractor.misc import *
+from weiboapi.util.util import get_json
 
 
-p = re.compile('\((.*)\)')
 weibo_extractor = WeiboExtractor(Weibo)
 comment_extractor = CommentExtractor(Comment)
 account_extractor = AccountExtractor()
-
-
-def get_json(data):
-    """
-    Extracting json data from the given string.
-    """
-    json_data = p.search(data).group(1)
-    json_data = json.loads(json_data)
-    return json_data
 
 
 def extract_url(data):
@@ -45,7 +36,8 @@ def extract_url(data):
 def get_prelogin_parameters(username):
     """
     Getting parameters that are needed to login.
-    username: the uername to login.
+
+    :param username str: the username to log in
     """
     data = handle_prelogin_request(username)
     if not data:
@@ -63,6 +55,10 @@ def get_prelogin_parameters(username):
 def login(username, password):
     """
     Logging in sina weibo using username and password.
+
+    :param str username: the username to log in
+
+    :param str password: the password of the username
     """
     if not get_prelogin_parameters(username):
         return False
@@ -92,18 +88,6 @@ def login(username, password):
         return False
 
 
-def check_code(data):
-    """
-    Checking the response code. If the request is handled correctly,
-    the code would be '100000'.
-    """
-    json_data = json.loads(data)
-    if json_data["code"] == "100000":
-        return True
-    else:
-        return False
-
-
 def post(content):
     """
     Making a post.
@@ -119,8 +103,10 @@ def post(content):
 def comment(mid, content):
     """
     Posting a comment.
-    mid: the id of the Weibo on which the is comment posted.
-    content: the content of the comment.
+
+    :param str mid: the id of the Weibo on which the is comment posted.
+
+    :param str content: the content of the comment.
     """
     data = handle_comment_request(mid, content)
     if not data:
@@ -132,11 +118,13 @@ def get_weibos(uid, domain=None, page=1):
     """
     Retriving the specified page of Weibo posts of a specified account.
 
-    :param str uid: the id of the target account.
+    :param str uid: the id of the target account
 
-    :param str domain: the domain of the account.
+    :param str domain: the domain of the account
 
-    :param int page: specified page of the posts.
+    :param int page: specified page of the posts
+
+    :return: a list of :class:`~weiboapi.api.weibo.Weibo` instances
     """
     if not domain:
         domain = get_domain(uid)
@@ -197,7 +185,11 @@ def check_weibos(weibos):
 
 def get_weibo(url):
     """
-    Retriving a unique Weibo post using the given url.
+    Retrieving a unique Weibo post using the given url.
+
+    :param str url: the url of the Weibo to retrieve.
+
+    :return: a :class:`weiboapi.api.weibo.Weibo` instance or `None`
     """
     data = handle_request(url)
     if not data:
@@ -212,8 +204,12 @@ def get_weibo(url):
 def get_comments(mid, page):
     """
     Retriving the specified page of comments of the specified Weibo post.
-    mid: the id of the Weibo post
-    page: specified page
+
+    :param str mid: the id of the Weibo post
+
+    :param int page: specified page
+
+    :return: a list of :class:`~weiboapi.api.comment.Comment` instances
     """
     _time = util.get_systemtime()
     url = para.comment_url % (mid, page, _time)
@@ -231,7 +227,8 @@ def get_comments(mid, page):
 def get_account(uid):
     """
     Retriving the information of the specified account.
-    uid: the id of the account.
+
+    :param str uid: the id of the account.
     """
     data = handle_namecard_request(uid)
     if not data:
@@ -248,7 +245,6 @@ def get_account(uid):
 def get_domain(uid):
     """
     Retriving the domain of an account.
-    uid: the id of the account.
     """
     data = handle_homepage_request(uid)
     if not data:
@@ -259,14 +255,20 @@ def get_domain(uid):
 def get_relation(uid, page=1, _type="followee"):
     """
     Retriving the relations of an account.
-    uid: the id of the account.
-    domain: the domain of the account.
-    page: the specified page.
-    _type: the type of the relations (followee or follower)
+
+    :param str uid: the id of the account.
+
+    :param str domain: the domain of the account.
+
+    :param int page: the specified page.
+
+    :param str _type: the type of the relations (followee or follower)
+
+    :return: a list of dict instances or `None`
     """
     data = handle_get_relation_request(uid, page, _type)
     if not data:
-        return
+        return None
 
     return extract_relation(data)
 
@@ -274,12 +276,10 @@ def get_relation(uid, page=1, _type="followee"):
 def get_user_info(uid, domain="100505"):
     """
     Retriving the information of the user of an account.
-    uid: the id of the account.
-    domain: the domain of the account.
     """
     data = handle_get_user_info_request(uid, domain)
     if not data:
-        return
+        return None
     return extract_user_info(data)
 
 
@@ -296,6 +296,15 @@ def is_verified(uid):
 
 
 def search_user(word, page=1, page_num=False):
+    """
+    Searching with a word to get concerned accounts.
+
+    :param str word: the word used to search
+
+    :param int page: the page of the result
+
+    :param bool page_num: specified whether the number of pages is returned
+    """
     data = handle_search_user_request(word, page)
     if not data:
         return None
