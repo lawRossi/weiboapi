@@ -200,3 +200,13 @@ def handle_search_user_request(word, page=1):
     if page > 1:
         url = url + "?page=%d" % page
     return url
+
+
+@install_handler
+def handle_search_weibo_request(word, page=1):
+    word = request.quote(word)
+    word = request.quote(word)
+    url = para.search_weibo_url % word
+    if page > 1:
+        url = url + "?page=%d" % page
+    return url

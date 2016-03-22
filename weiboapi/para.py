@@ -21,7 +21,7 @@ post_url = 'http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=%s'
 
 post_comment_url = 'http://weibo.com/aj/v6/comment/add?ajwvr=6&__rnd=%s'
 
-get_weibo_url = 'http://weibo.com/u/%s/home?wvr=6&page=%d'
+get_weibo_url = 'http://weibo.com/u/%s/home?wvr=6&page=%d&is_all=1'
 
 query_url = 'http://weibo.com/p/aj/v6/mblog/mbloglist'  # for quering weibo content
 
@@ -37,6 +37,8 @@ get_follower_url = 'http://weibo.com/%s/fans?rightmod=1&wvr=6&page=%d'
 get_user_info_url = 'http://weibo.com/p/%s%s/info'
 
 search_user_url = "http://s.weibo.com/user/%s"
+
+search_weibo_url = "http://s.weibo.com/weibo/%s"
 
 home_url = 'http://weibo.com/u/%s/home'
 

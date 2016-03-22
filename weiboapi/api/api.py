@@ -307,6 +307,27 @@ def search_user(word, page=1, page_num=False):
     """
     data = handle_search_user_request(word, page)
     if not data:
+        if page_num:
+            return None, None
         return None
     else:
         return extract_user(data, page_num)
+
+
+def search_weibo(word, page=1, page_num=False):
+    """
+    Searching with a word to get concerned Weibos.
+
+    :param str word: the word used to search
+
+    :param int page: the page of the result
+
+    :param bool page_num: specified whether the number of pages is returned
+    """
+    data = handle_search_weibo_request(word, page)
+    if not data:
+        if page_num:
+            return None, None
+        return None
+    else:
+        return extract_searched_weibo(data, page_num)

@@ -53,7 +53,7 @@ class WeiboExtractor():
                 weibo = Weibo()
                 for extractor in self.extractors:
                     try:
-                        extractor.extract(div, weibo)
+                        extractor.extract(div, weibo, single)
                     except:
                         traceback.print_exc()
                         continue
@@ -80,12 +80,12 @@ class WeiboExtractor():
 
 
 class FieldExtractor():
-    def extract(self, div, weibo):
+    def extract(self, div, weibo, single=False):
         pass
 
 
 class ContentExtractor(FieldExtractor):
-    def extract(self, div, weibo):
+    def extract(self, div, weibo, single=False):
         """
         Extracting weibo content from the given div elment.
         """
@@ -138,7 +138,7 @@ class NumberInfoExtractor(FieldExtractor):
     def __init__(self):
         self.p = re.compile("\d+")
 
-    def extract(self, div, weibo):
+    def extract(self, div, weibo, single=False):
         """
         Extracting repost_number, like_number, comment_number
         """
@@ -178,7 +178,7 @@ class NumberInfoExtractor(FieldExtractor):
 
 
 class MidExtractor(FieldExtractor):
-    def extract(self, div, weibo):
+    def extract(self, div, weibo, single=False):
         weibo['mid'] = div.attrib.get('mid')
         omid = div.attrib.get('omid')
         tbinfo = div.attrib.get('tbinfo')
@@ -192,7 +192,7 @@ class MidExtractor(FieldExtractor):
 
 
 class DateSouceExtractor(FieldExtractor):
-    def extract(self, div, weibo):
+    def extract(self, div, weibo, single=False):
         """
         Extracting date and source
         """
@@ -200,7 +200,10 @@ class DateSouceExtractor(FieldExtractor):
         if len(new_div) == 1:
             new_div = new_div[0]
         elif len(new_div) == 2:
-            new_div = new_div[1]
+            if not single:
+                new_div = new_div[0]
+            else:
+                new_div = new_div[1]
         date = new_div.xpath(r'.//a[@node-type="feed_list_item_date"]')[0]
         weibo['date'] = util.timestamp_to_date(
             int(date.attrib.get('date')[:-3])
@@ -210,7 +213,7 @@ class DateSouceExtractor(FieldExtractor):
 
 
 class UrlExtractor(FieldExtractor):
-    def extract(self, div, weibo):
+    def extract(self, div, weibo, single=False):
         """
         Extracting the url(s) of weibo
         """
@@ -231,7 +234,7 @@ class UrlExtractor(FieldExtractor):
 
 
 class MediaInfoExtractor(FieldExtractor):
-    def extract(self, div, weibo):
+    def extract(self, div, weibo, single=False):
         """
         Extracting media infomation such a pictures urls and links.
         """

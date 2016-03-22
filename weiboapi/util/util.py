@@ -114,13 +114,20 @@ def extract_script(html):
     return scripts
 
 
+p = re.compile("\(({.+})\)")
+
+
 def extract_html_from_script(text):
     """
     Extracting html from script text.
     """
-    begin = len('FM.view(')
-    end = len(text) - len(')')
-    json_data = json.loads(text[begin: end])
+    # begin = len('FM.view(')
+    # end = len(text) - len(')')
+    # json_data = json.loads(text[begin: end])
+    # doc = json_data['html']
+    # return doc
+    match = p.search(text)
+    json_data = json.loads(match.groups()[0])
     doc = json_data['html']
     return doc
 

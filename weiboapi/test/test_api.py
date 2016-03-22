@@ -28,11 +28,11 @@ def test_login():
 #     print(domain)
 
 
-def test_get_weibos():
-    weibos = get_weibos("2237529652", "100505", 2)
-    print(weibos)
-    weibos = get_weibos("2828172374", "100505")
-    print(weibos)
+# def test_get_weibos():
+    # weibos = get_weibos("2237529652", "100505", 2)
+    # print(weibos)
+    # weibos = get_weibos("2828172374", "100505")
+    # print(weibos)
     # # weibos = get_weibos("2864766784")
     # mids1 = [weibo["mid"] for weibo in weibos]
     # fi = codecs.open("temp.txt", encoding="utf-8")
@@ -86,3 +86,11 @@ def test_get_weibos():
 #     print(len(users))
 #     for user in users:
 #         print(user)
+
+
+def test_search_weibo():
+    weibos = search_weibo("足球")
+    print(len(weibos))
+    for weibo in weibos[:3]:
+        account = get_account(weibo["uid"])
+        print(account)
