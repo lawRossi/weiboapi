@@ -194,6 +194,7 @@ def handle_homepage_request(uid):
 
 @install_handler
 def handle_search_user_request(word, page=1):
+    word = word.encode("utf-8")
     word = request.quote(word)
     word = request.quote(word)
     url = para.search_user_url % word
@@ -204,6 +205,7 @@ def handle_search_user_request(word, page=1):
 
 @install_handler
 def handle_search_weibo_request(word, page=1):
+    word = word.encode("utf-8")
     word = request.quote(word)
     word = request.quote(word)
     url = para.search_weibo_url % word
