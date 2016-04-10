@@ -82,14 +82,14 @@ def test_login():
 
 
 # def test_search_user():
-#     users = search_user("足球")
+#     users = search_user(u"足球")
 #     print(len(users))
-#     for user in users:
+#     for user in users[:3]:
 #         print(user)
 
 
 def test_search_weibo():
-    weibos = search_weibo("足球")
+    weibos = search_weibo(u"疫苗 孩子")
     print(len(weibos))
     for weibo in weibos[:3]:
         account = get_account(weibo["uid"])
