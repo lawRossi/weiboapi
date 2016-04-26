@@ -3,20 +3,13 @@
 @Author: Rossi
 2016-01-26
 """
+from __future__ import unicode_literals
 from bs4 import BeautifulSoup
 from lxml import etree
 import traceback
 from weiboapi.util import util
 import re
 from weiboapi.api.weibo import Weibo
-
-# deal with py2 encoding problem
-import sys
-try:
-    reload(sys)
-    sys.setdefaultencoding("utf-8")
-except:
-    pass
 
 
 ID_LENGTH = 10
@@ -90,7 +83,8 @@ class ContentExtractor(FieldExtractor):
         Extracting weibo content from the given div elment.
         """
         content = div.xpath(r'.//div[@node-type="feed_list_content"]')[0]
-        root = BeautifulSoup(etree.tostring(content, encoding="utf-8"), "lxml")
+        # root = BeautifulSoup(etree.tostring(content, encoding="utf-8"), "lxml")
+        root = BeautifulSoup(etree.tostring(content), "lxml")
         node = root.find('div')
         text = ""
         img_text = ""
@@ -98,13 +92,13 @@ class ContentExtractor(FieldExtractor):
         # iterating the elements and appends their text.
         for child in node.children:
             if not hasattr(child, "name") or child.name is None:
-                t = str(child)
+                t = unicode(child)
                 text += t.strip()
 
             elif child.name == 'img':
                 if child.has_attr('title'):
-                    text += str(child['title'])
-                    img_text += str(child['title']) + " "
+                    text += child['title']
+                    img_text += child['title'] + " "
 
             elif child.name == 'a':
                 if child.has_attr('render'):
@@ -116,13 +110,13 @@ class ContentExtractor(FieldExtractor):
             elif child.name == 'em':
                 for c in child.children:
                     if not hasattr(c, "name") or c.name is None:
-                        t = str(c)
+                        t = unicode(c)
                         text += t.strip()
 
                     elif c.name == 'img':
                         if c.has_attr('title'):
                             text += c['title'].strip()
-                            img_text += str(c['title']) + " "
+                            img_text += c['title'] + " "
 
                     elif c.name == 'a':
                         if c.has_attr('render'):
@@ -258,7 +252,7 @@ class MediaInfoExtractor(FieldExtractor):
                 link_texts = ""
                 ls = []
                 for link in links:
-                    if link.attrib.get('href') != None:
+                    if link.attrib.get('href') is not None:
                         ls.append(link.attrib.get('href'))
                     else:
                         continue
