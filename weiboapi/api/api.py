@@ -233,13 +233,16 @@ def get_account(uid):
     data = handle_namecard_request(uid)
     if not data:
         return None
-    json_data = re.findall('(\({.*}\))', data)[0]
-    json_data = json.loads(json_data[1:-1])
-    doc = json_data["data"]
-    account = account_extractor.extract_account(doc)
-    if account:
-        account["uid"] = uid
-    return account
+    try:
+        json_data = re.findall('(\({.*}\))', data)[0]
+        json_data = json.loads(json_data[1:-1])
+        doc = json_data["data"]
+        account = account_extractor.extract_account(doc)
+        if account:
+            account["uid"] = uid
+        return account
+    except:
+        return None
 
 
 def get_domain(uid):
