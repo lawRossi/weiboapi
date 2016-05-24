@@ -317,7 +317,7 @@ def search_user(word, page=1, page_num=False):
         return extract_user(data, page_num)
 
 
-def search_weibo(word, page=1, page_num=False):
+def search_weibo(word, page=1, page_num=False, region=None):
     """
     Searching with a word to get concerned Weibos.
 
@@ -327,7 +327,7 @@ def search_weibo(word, page=1, page_num=False):
 
     :param bool page_num: specified whether the number of pages is returned
     """
-    data = handle_search_weibo_request(word, page)
+    data = handle_search_weibo_request(word, page, region)
     if not data:
         if page_num:
             return None, None
