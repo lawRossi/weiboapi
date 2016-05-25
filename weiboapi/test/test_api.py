@@ -13,7 +13,8 @@ import codecs
 
 def test_login():
     # assert login("xiaocailuoxi@sina.com", "xiaocai") == False
-    assert login("xiaocailuoxi@sina.com", "xiaocailuoxi03") == True
+    # assert login("xiaocailuoxi@sina.com", "xiaocailuoxi03") is True
+    assert login("xlab1up@gmail.com", "chinese833") is True
 
 # def test_post():
 #     assert post("[哈哈]") == True
@@ -29,10 +30,12 @@ def test_login():
 
 
 # def test_get_weibos():
-    # weibos = get_weibos("2237529652", "100505", 2)
-    # print(weibos)
-    # weibos = get_weibos("2828172374", "100505")
-    # print(weibos)
+#     weibos = get_weibos("1349413701", "100505", 2)
+#     for weibo in weibos:
+#         print(weibo["content"])
+    # weibos = get_weibos("1001509221", "100505")
+    # for weibo in weibos:
+    #     print(weibo)
     # # weibos = get_weibos("2864766784")
     # mids1 = [weibo["mid"] for weibo in weibos]
     # fi = codecs.open("temp.txt", encoding="utf-8")
@@ -45,10 +48,10 @@ def test_login():
 
 
 # def test_get_weibo():
-#     weibo = get_weibo("http://weibo.com/2828172374/DiC3JCtzo")
+#     weibo = get_weibo("http://weibo.com/1001509221/ACuc3ttTF")
 #     print(weibo)
-#     # weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
-#     # print(weibo)
+    # weibo = get_weibo("http://weibo.com/2828172374/D8ncDbB0Q")
+    # print(weibo)
 #     weibo = get_weibo("http://weibo.com/2237529652/C91R89kUV")
 #     print(weibo)
 
@@ -60,6 +63,7 @@ def test_login():
 
 # def test_get_account():
 #     account = get_account("2237529652")
+#     account = get_account("1266917923")
 #     print(account)
 
 
@@ -89,8 +93,7 @@ def test_login():
 
 
 def test_search_weibo():
-    weibos = search_weibo(u"疫苗 孩子")
+    weibos = search_weibo(u"旅游", region="custom:44:1000")
     print(len(weibos))
-    for weibo in weibos[:3]:
-        account = get_account(weibo["uid"])
-        print(account)
+    for weibo in weibos[:5]:
+        print(weibo)

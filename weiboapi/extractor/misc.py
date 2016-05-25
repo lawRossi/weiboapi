@@ -116,6 +116,8 @@ def extract_searched_weibo(doc, page_num=None):
                 usercard = _div.attrib.get("usercard")
                 end = usercard.index("&")
                 weibo["uid"] = usercard[len("id="):end]
+                link = div.xpath('.//*[@class="feed_from W_textb"]/a')[0]
+                weibo["url"] = link.attrib.get("href")
                 weibos.append(weibo)
             except:
                 traceback.print_exc()
