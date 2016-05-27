@@ -10,6 +10,7 @@ from weiboapi.util import util
 import re
 import json
 from weiboapi.api.weibo import Weibo
+from bs4 import BeautifulSoup
 
 
 def extract_domain(doc):
@@ -118,6 +119,8 @@ def extract_searched_weibo(doc, page_num=None):
                 weibo["uid"] = usercard[len("id="):end]
                 link = div.xpath('.//*[@class="feed_from W_textb"]/a')[0]
                 weibo["url"] = link.attrib.get("href")
+                extract_content(div, weibo)
+                extract_date_source(div, weibo)
                 weibos.append(weibo)
             except:
                 traceback.print_exc()
@@ -137,3 +140,59 @@ def extract_searched_weibo(doc, page_num=None):
             return None, None
         else:
             return None
+
+
+def extract_content(div, weibo):
+    content = div.xpath(r'.//p[@node-type="feed_list_content"]')[0]
+    root = BeautifulSoup(etree.tostring(content), "lxml")
+    text = ""
+    img_text = ""
+    at_text = ""
+    node = root.find("p")
+    # iterating the elements and appends their text.
+    for child in node.children:
+        if not hasattr(child, "name") or child.name is None:
+            t = unicode(child)
+            text += t.strip()
+
+        elif child.name == 'img':
+            if child.has_attr('title'):
+                text += child['title']
+                img_text += child['title'] + " "
+
+        elif child.name == 'a':
+            if child.has_attr('render'):
+                text += " %s " % child.text
+                at_text += child.text + " "
+            else:
+                text += child.text
+
+        elif child.name == 'em':
+            for c in child.children:
+                if not hasattr(c, "name") or c.name is None:
+                    t = unicode(c)
+                    text += t.strip()
+
+                elif c.name == 'img':
+                    if c.has_attr('title'):
+                        text += c['title'].strip()
+                        img_text += c['title'] + " "
+
+                elif c.name == 'a':
+                    if c.has_attr('render'):
+                        text += " %s " % c.text
+                        at_text += child.text + " "
+                    else:
+                        text += c.text
+
+    weibo["content"] = text
+
+
+def extract_date_source(div, weibo):
+    new_div = div.xpath(r'.//div[@class="feed_from W_textb"]')[0]
+    date = new_div.xpath(r'.//a[@node-type="feed_list_item_date"]')[0]
+    weibo['date'] = util.timestamp_to_date(
+        int(date.attrib.get('date')[:-3])
+        )
+    source = new_div.xpath(r'.//a/text()')[1]
+    weibo['source'] = source

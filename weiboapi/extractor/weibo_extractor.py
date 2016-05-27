@@ -83,7 +83,6 @@ class ContentExtractor(FieldExtractor):
         Extracting weibo content from the given div elment.
         """
         content = div.xpath(r'.//div[@node-type="feed_list_content"]')[0]
-        # root = BeautifulSoup(etree.tostring(content, encoding="utf-8"), "lxml")
         root = BeautifulSoup(etree.tostring(content), "lxml")
         node = root.find('div')
         text = ""
