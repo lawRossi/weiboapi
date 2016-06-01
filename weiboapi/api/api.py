@@ -286,18 +286,6 @@ def get_user_info(uid, domain="100505"):
     return extract_user_info(data)
 
 
-def is_verified(uid):
-    """
-    Checking whether an account is verified.
-    """
-    data = handle_homepage_request(uid)
-    if not data:
-        return
-    if data.find("verify_area") != -1:
-        return True
-    return False
-
-
 def search_user(word, page=1, page_num=False):
     """
     Searching with a word to get concerned accounts.

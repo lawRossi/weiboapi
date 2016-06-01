@@ -31,6 +31,12 @@ class AccountExtractor():
             text = html.xpath('.//li[@class="info_li"]/a/text()')
             if text:
                 account["area"] = text[0].strip()
+            link = html.xpath(r'//a[@class="icon_bed"]')[0]
+            href = link.attrib["href"]
+            if href.startswith("http://verified"):
+                account["verify"] = True
+            else:
+                account["verify"] = False
             return account
         except:
             traceback.print_exc()
