@@ -17,7 +17,7 @@ from .comment import Comment
 from weiboapi.extractor.account_extractor import AccountExtractor
 from weiboapi.extractor.misc import *
 from weiboapi.util.util import get_json
-
+from weiboapi.util.util import check_code
 
 weibo_extractor = WeiboExtractor(Weibo)
 comment_extractor = CommentExtractor(Comment)

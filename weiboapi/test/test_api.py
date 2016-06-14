@@ -4,8 +4,6 @@
 2016-01-23
 """
 from weiboapi.api.api import *
-import codecs
-
 
 # def test_get_prelogin_parameters():
 #     assert get_prelogin_parameters("xiaocailuoxi@sina.com") == True
@@ -20,8 +18,8 @@ def test_login():
 #     assert post("[哈哈]") == True
 
 
-# def test_comment():
-#    assert comment("3938833714291022", "评论一下") == True
+def test_comment():
+   assert comment("3986348463031592", "[哈哈]") is True
 
 
 # def test_get_domain():
@@ -62,8 +60,11 @@ def test_login():
 
 
 # def test_get_account():
-#     account = get_account("2237529652")
-#     account = get_account("1266917923")
+#     account = get_account("2363225481")
+#     print(account)
+#     account = get_account("3136675261")
+#     print(account)
+#     account = get_account("5921927072")
 #     print(account)
 
 
@@ -80,11 +81,6 @@ def test_login():
 #     print(userinfo)
 
 
-# def test_is_verified():
-#     assert is_verified("1825436514") == False
-#     assert is_verified("1750070171") == True
-
-
 # def test_search_user():
 #     users = search_user(u"足球")
 #     print(len(users))
@@ -92,8 +88,8 @@ def test_login():
 #         print(user)
 
 
-def test_search_weibo():
-    weibos = search_weibo(u"旅游", region="custom:44:1000")
-    print(len(weibos))
-    for weibo in weibos[:5]:
-        print(weibo)
+# def test_search_weibo():
+#     weibos = search_weibo(u"旅游")  # , region="custom:44:1000")
+#     print(len(weibos))
+#     for weibo in weibos[:5]:
+#         print(weibo)
