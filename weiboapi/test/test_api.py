@@ -12,15 +12,19 @@ from weiboapi.api.api import *
 def test_login():
     # assert login("xiaocailuoxi@sina.com", "xiaocai") == False
     # assert login("xiaocailuoxi@sina.com", "xiaocailuoxi03") is True
-    assert login("xlab1up@gmail.com", "chinese833") is True
+    # assert login("xlab1up@gmail.com", "chinese833") is True
+    assert login("13751539562", "benyi855") is True
+
 
 # def test_post():
 #     assert post("[哈哈]") == True
 
 
-def test_comment():
-   assert comment("3986348463031592", "[哈哈]") is True
+# def test_comment():
+#    assert comment("3986348463031592", "[哈哈]") is True
 
+def test_repost():
+    assert repost("3986939457373186", "[吃惊]") is True
 
 # def test_get_domain():
 #     domain = get_domain("2237529652")

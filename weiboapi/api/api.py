@@ -100,6 +100,16 @@ def post(content):
     return check_code(data)
 
 
+def repost(mid, content):
+    """
+    Reposting a Weibo.
+    """
+    data = handle_repost_request(mid, content)
+    if not data:
+        return False
+    return check_code(data)
+
+
 def comment(mid, content):
     """
     Posting a comment.

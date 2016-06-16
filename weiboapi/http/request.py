@@ -119,6 +119,20 @@ def handle_post_request(content):
 
 
 @install_handler
+def handle_repost_request(mid, content):
+    para.repost_form["mid"] = mid
+    para.repost_form["reason"] = content
+    data = urlencode(para.repost_form)
+    url = para.repost_url % (para.uid, util.get_systemtime())
+    req = request.Request(
+        url=url,
+        data=bytearray(data, 'utf-8'),
+        headers=para.headers
+    )
+    return req
+
+
+@install_handler
 def handle_comment_request(mid, content):
     para.comment_form['mid'] = mid
     para.comment_form['uid'] = para.uid

@@ -19,6 +19,8 @@ session_url = 'http://beacon.sina.com.cn/e.gif?UATrack||300805596634.7456.139294
 
 post_url = 'http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=%s'
 
+repost_url = 'http://weibo.com/aj/v6/mblog/forward?ajwvr=6&domain=%s&__rnd=%s'
+
 post_comment_url = 'http://weibo.com/aj/v6/comment/add?ajwvr=6&__rnd=%s'
 
 get_weibo_url = 'http://weibo.com/u/%s/home?wvr=6&page=%d&is_all=1'
@@ -125,6 +127,26 @@ post_form = {
     "pub_type": "dialog",
     "_t": 0
 }  # used for posting a Weibo
+
+repost_form = {
+    "pic_src": "",
+    "pic_id": "",
+    "appkey": "",
+    "mid": "",
+    "style_type": 1,
+    "mark": "",
+    "reason": "",
+    "location": "v6_content_home",
+    "pdetail": "",
+    "module": "",
+    "page_module_id": "",
+    "refer_sort": "",
+    "rank": 0,
+    "rankid": "",
+    "group_source": "group_all",
+    "rid": "",
+    "_t": 0
+}
 
 
 comment_form = {
