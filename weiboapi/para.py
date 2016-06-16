@@ -141,6 +141,7 @@ repost_form = {
     "module": "",
     "page_module_id": "",
     "refer_sort": "",
+    # "is_comment_base": 1,
     "rank": 0,
     "rankid": "",
     "group_source": "group_all",
