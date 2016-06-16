@@ -24,7 +24,7 @@ def test_login():
 #    assert comment("3986348463031592", "[哈哈]") is True
 
 def test_repost():
-    assert repost("3986939457373186", "[吃惊]") is True
+    assert repost("3987033825353370", "赞同", True) is True
 
 # def test_get_domain():
 #     domain = get_domain("2237529652")

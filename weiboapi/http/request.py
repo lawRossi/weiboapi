@@ -119,9 +119,14 @@ def handle_post_request(content):
 
 
 @install_handler
-def handle_repost_request(mid, content):
+def handle_repost_request(mid, content, comment):
     para.repost_form["mid"] = mid
     para.repost_form["reason"] = content
+    if comment:
+        para.repost_form["is_comment_base"] = 1
+    elif "is_comment_base" in para.repost_form:
+            del(para.repost_form["is_comment_base"])
+
     data = urlencode(para.repost_form)
     url = para.repost_url % (para.uid, util.get_systemtime())
     req = request.Request(
