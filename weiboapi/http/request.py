@@ -223,12 +223,18 @@ def handle_search_user_request(word, page=1):
 
 
 @install_handler
-def handle_search_weibo_request(word, page=1, region=None):
+def handle_search_weibo_request(word, page=1, region=None,
+                                start_date=None, end_date=None):
     word = word.encode("utf-8")
     word = request.quote(word)
     word = request.quote(word)
     url = para.search_weibo_url % word
-    url = url + "?page=%d" % page
+    url = url + "?page=%d&typeall=1&suball=1" % page
     if region:
-        url = url + ("&region=%s&typeall=1&suball=1" % region)
+        url = url + ("&region=%s" % region)
+    if start_date is not None or end_date is not None:
+        append = "&timescope=custom:%s:%s" % (start_date, end_date)
+        append = append.replace("None", "")
+        url = url + append
+
     return url

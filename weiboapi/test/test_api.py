@@ -23,8 +23,8 @@ def test_login():
 # def test_comment():
 #    assert comment("3986348463031592", "[哈哈]") is True
 
-def test_repost():
-    assert repost("3987033825353370", "赞同", True) is True
+# def test_repost():
+#     assert repost("3987033825353370", "赞同", True) is True
 
 # def test_get_domain():
 #     domain = get_domain("2237529652")
@@ -92,8 +92,9 @@ def test_repost():
 #         print(user)
 
 
-# def test_search_weibo():
-#     weibos = search_weibo(u"旅游")  # , region="custom:44:1000")
-#     print(len(weibos))
-#     for weibo in weibos[:5]:
-#         print(weibo)
+def test_search_weibo():
+    weibos = search_weibo(u"旅游", region="custom:44:1000",
+                          start_date="2016-6-1")
+    print(len(weibos))
+    for weibo in weibos[:5]:
+        print(weibo)
