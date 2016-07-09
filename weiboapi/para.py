@@ -21,6 +21,8 @@ post_url = 'http://weibo.com/aj/mblog/add?ajwvr=6&__rnd=%s'
 
 repost_url = 'http://weibo.com/aj/v6/mblog/forward?ajwvr=6&domain=%s&__rnd=%s'
 
+send_message_url = "http://weibo.com/aj/message/add?ajwvr=6&__rnd=%s"
+
 post_comment_url = 'http://weibo.com/aj/v6/comment/add?ajwvr=6&__rnd=%s'
 
 get_weibo_url = 'http://weibo.com/u/%s/home?wvr=6&page=%d&is_all=1'
@@ -164,3 +166,16 @@ comment_form = {
     "pdetail": "",
     "_t": 0
 }  # used for posting a coment
+
+
+message_form = {
+    "location": "msgdialog",
+    "module": "msgissue",
+    "style_id": "1",
+    "text": "",
+    "uid": "",
+    "tovfids": "",
+    "fids": "",
+    "el": "[object HTMLDivElement]",
+    "_t": "0"
+}

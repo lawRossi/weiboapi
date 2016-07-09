@@ -138,6 +138,22 @@ def handle_repost_request(mid, content, comment):
 
 
 @install_handler
+def handle_send_message_request(uid, content):
+    para.message_form["uid"] = uid
+    para.message_form["text"] = content
+    data = urlencode(para.message_form)
+    url = para.send_message_url % util.get_systemtime()
+    headers = para.headers.copy()
+    headers["X-Requested-With"] = "XMLHttpRequest"
+    req = request.Request(
+        url=url,
+        data=bytearray(data, 'utf-8'),
+        headers=headers
+    )
+    return req
+
+
+@install_handler
 def handle_comment_request(mid, content):
     para.comment_form['mid'] = mid
     para.comment_form['uid'] = para.uid

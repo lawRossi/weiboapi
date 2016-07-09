@@ -121,6 +121,15 @@ def comment(mid, content):
     data = handle_comment_request(mid, content)
     if not data:
         return False
+    print(data)
+    return check_code(data)
+
+
+def send_message(uid, content):
+    data = handle_send_message_request(uid, content)
+    if not data:
+        return False
+
     return check_code(data)
 
 

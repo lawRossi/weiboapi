@@ -12,8 +12,8 @@ from weiboapi.api.api import *
 def test_login():
     # assert login("xiaocailuoxi@sina.com", "xiaocai") == False
     # assert login("xiaocailuoxi@sina.com", "xiaocailuoxi03") is True
-    # assert login("xlab1up@gmail.com", "chinese833") is True
-    assert login("13751539562", "benyi855") is True
+    assert login("xlab1up@gmail.com", "chinese833") is True
+    # assert login("13751539562", "benyi855") is True
 
 
 # def test_post():
@@ -25,6 +25,11 @@ def test_login():
 
 # def test_repost():
 #     assert repost("3987033825353370", "赞同", True) is True
+
+
+def test_send_message():
+    assert send_message("2363405233", "haha")
+
 
 # def test_get_domain():
 #     domain = get_domain("2237529652")
@@ -92,9 +97,9 @@ def test_login():
 #         print(user)
 
 
-def test_search_weibo():
-    weibos = search_weibo(u"旅游", region="custom:44:1000",
-                          start_date="2016-6-1")
-    print(len(weibos))
-    for weibo in weibos[:5]:
-        print(weibo)
+# def test_search_weibo():
+#     weibos = search_weibo(u"旅游", region="custom:44:1000",
+#                           start_date="2016-6-1")
+#     print(len(weibos))
+#     for weibo in weibos[:5]:
+#         print(weibo)
