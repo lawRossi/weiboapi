@@ -121,7 +121,6 @@ def comment(mid, content):
     data = handle_comment_request(mid, content)
     if not data:
         return False
-    print(data)
     return check_code(data)
 
 
