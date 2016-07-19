@@ -48,6 +48,8 @@ home_url = 'http://weibo.com/u/%s/home'
 
 big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'
 
+follow_url = "http://weibo.com/aj/f/followed?ajwvr=6&__rnd=%s"
+
 servertime = None
 
 uid = ''  # the id of the "login account".
@@ -76,8 +78,10 @@ request_body = {
 }  # used by login requests.
 
 headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36' +
-    ' (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36',
+    'User-Agent': ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+                   "(KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36"),
+    'Accept': ('text/html,application/xhtml+xml,application/xml;q=0.9'
+               ',image/webp,*/*;q=0.8'),
     'Accept-Language': 'zh-CN,zh;q=0.8',
     'Referer': 'http://weibo.com'
 }
@@ -177,5 +181,20 @@ message_form = {
     "tovfids": "",
     "fids": "",
     "el": "[object HTMLDivElement]",
+    "_t": "0"
+}
+
+follow_form = {
+    "uid": "",
+    "objectid": "",
+    "refer_flag": "1005050001_",
+    "location": "page_100505_home",
+    "extra": "",
+    "refer_sort": "",
+    "f": "1",
+    "oid": "",
+    "wforce": "1",
+    "nogroup": "false",
+    "fnick": "",
     "_t": "0"
 }

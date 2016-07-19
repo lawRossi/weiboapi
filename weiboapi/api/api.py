@@ -18,6 +18,7 @@ from weiboapi.extractor.account_extractor import AccountExtractor
 from weiboapi.extractor.misc import *
 from weiboapi.util.util import get_json
 from weiboapi.util.util import check_code
+from weiboapi.util.util import wrap_user_info
 
 weibo_extractor = WeiboExtractor(Weibo)
 comment_extractor = CommentExtractor(Comment)
@@ -129,6 +130,13 @@ def send_message(uid, content):
     if not data:
         return False
 
+    return check_code(data)
+
+
+def follow(uid, nick):
+    data = handle_follow_request(uid, nick)
+    if not data:
+        return False
     return check_code(data)
 
 
@@ -301,7 +309,9 @@ def get_user_info(uid, domain="100505"):
     data = handle_get_user_info_request(uid, domain)
     if not data:
         return None
-    return extract_user_info(data)
+    userinfo = extract_user_info(data)
+    if userinfo:
+        return wrap_user_info(userinfo)
 
 
 def search_user(word, page=1, page_num=False):

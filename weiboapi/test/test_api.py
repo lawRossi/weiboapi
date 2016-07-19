@@ -10,8 +10,6 @@ from weiboapi.api.api import *
 
 
 def test_login():
-    # assert login("xiaocailuoxi@sina.com", "xiaocai") == False
-    # assert login("xiaocailuoxi@sina.com", "xiaocailuoxi03") is True
     assert login("xlab1up@gmail.com", "chinese833") is True
     # assert login("13751539562", "benyi855") is True
 
@@ -27,8 +25,12 @@ def test_login():
 #     assert repost("3987033825353370", "赞同", True) is True
 
 
-def test_send_message():
-    assert send_message("2363405233", "haha")
+# def test_follow():
+#     assert follow("5984418785", "汪汪信用") is True
+
+
+# def test_send_message():
+#    assert send_message("2363405233", "hai")
 
 
 # def test_get_domain():
@@ -85,9 +87,10 @@ def test_send_message():
 #     print(list(followers))
 
 
-# def test_get_user_info():
-#     userinfo = get_user_info("3206249732")
-#     print(userinfo)
+def test_get_user_info():
+    userinfo = get_user_info("2363405233")
+    for k, v in userinfo.items():
+        print k, ":", v
 
 
 # def test_search_user():

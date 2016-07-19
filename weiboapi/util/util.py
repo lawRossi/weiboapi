@@ -163,3 +163,20 @@ def get_json(data):
     json_data = p.search(data).group(1)
     json_data = json.loads(json_data)
     return json_data
+
+
+k_p = re.compile("([^\s]+)：")
+sep = re.compile("[^\s]+：")
+
+
+def wrap_user_info(info):
+    info_dict = {}
+    for item in info:
+        item = item.encode("utf-8")
+        keys = re.findall(k_p, item)
+        values = re.split(sep, item)
+        values = filter(lambda x: x.strip() != "", values)
+
+        for k, v in zip(keys, values):
+            info_dict[k] = v.strip()
+    return info_dict

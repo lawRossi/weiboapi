@@ -169,6 +169,21 @@ def handle_comment_request(mid, content):
 
 
 @install_handler
+def handle_follow_request(uid, nick):
+    para.follow_form["uid"] = uid
+    para.follow_form["oid"] = uid
+    para.follow_form["fnick"] = nick
+    data = urlencode(para.follow_form)
+    url = para.follow_url % util.get_systemtime()
+    req = request.Request(
+        url=url,
+        data=bytearray(data, 'utf-8'),
+        headers=para.headers
+    )
+    return req
+
+
+@install_handler
 def handle_get_weibos_request(uid, domain, page, stage=1):
     if stage == 1:
         url = para.get_weibo_url % (uid, page)
