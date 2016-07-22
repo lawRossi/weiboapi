@@ -44,6 +44,8 @@ search_user_url = "http://s.weibo.com/user/%s"
 
 search_weibo_url = "http://s.weibo.com/weibo/%s"
 
+search_personal_weibo_url = ""
+
 home_url = 'http://weibo.com/u/%s/home'
 
 big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'

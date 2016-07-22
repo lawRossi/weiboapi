@@ -38,10 +38,10 @@ def test_login():
 #     print(domain)
 
 
-# def test_get_weibos():
-#     weibos = get_weibos("1349413701", "100505", 2)
-#     for weibo in weibos:
-#         print(weibo["content"])
+def test_get_weibos():
+    weibos = get_weibos("1494759712", "100505", 1, "百度")
+    for weibo in weibos:
+        print(weibo["content"])
     # weibos = get_weibos("1001509221", "100505")
     # for weibo in weibos:
     #     print(weibo)
@@ -87,10 +87,10 @@ def test_login():
 #     print(list(followers))
 
 
-def test_get_user_info():
-    userinfo = get_user_info("2363405233")
-    for k, v in userinfo.items():
-        print k, ":", v
+# def test_get_user_info():
+#     userinfo = get_user_info("2363405233")
+#     for k, v in userinfo.items():
+#         print k, ":", v
 
 
 # def test_search_user():

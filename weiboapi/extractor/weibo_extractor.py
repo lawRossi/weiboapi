@@ -123,6 +123,8 @@ class ContentExtractor(FieldExtractor):
                             at_text += child.text + " "
                         else:
                             text += c.text
+            elif child.name == 'span':
+                text += child.text
 
         weibo["content"] = text
 

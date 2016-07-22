@@ -140,7 +140,7 @@ def follow(uid, nick):
     return check_code(data)
 
 
-def get_weibos(uid, domain=None, page=1):
+def get_weibos(uid, domain=None, page=1, keyword=None):
     """
     Retriving the specified page of Weibo posts of a specified account.
 
@@ -156,19 +156,19 @@ def get_weibos(uid, domain=None, page=1):
         domain = get_domain(uid)
 
     weibos = []
-    new_weibos = request_weibos(uid, domain, page, 1)
+    new_weibos = request_weibos(uid, domain, page, 1, keyword)
     if not new_weibos:
         return weibos
     else:
         weibos.extend(new_weibos)
 
-    new_weibos = request_weibos(uid, domain, page, 2)
+    new_weibos = request_weibos(uid, domain, page, 2, keyword)
     if not new_weibos:
         return weibos
     else:
         weibos.extend(new_weibos)
 
-    new_weibos = request_weibos(uid, domain, page, 3)
+    new_weibos = request_weibos(uid, domain, page, 3, keyword)
     if not new_weibos:
         return weibos
     else:
@@ -177,16 +177,16 @@ def get_weibos(uid, domain=None, page=1):
     return weibos
 
 
-def request_weibos(uid, domain, page, stage):
+def request_weibos(uid, domain, page, stage, keyword):
     if stage == 1:
-        data = handle_get_weibos_request(uid, domain, page)
+        data = handle_get_weibos_request(uid, domain, page, keyword=keyword)
         if not data:
             return None
         weibos = weibo_extractor.extract_weibos(data, True)
         return check_weibos(weibos)
 
     elif stage == 2:
-        data = handle_get_weibos_request(uid, domain, page, stage)
+        data = handle_get_weibos_request(uid, domain, page, stage, keyword)
         if not data:
             return None
         json_data = json.loads(data)
@@ -194,7 +194,7 @@ def request_weibos(uid, domain, page, stage):
         weibos = weibo_extractor.extract_weibos(doc)
         return check_weibos(weibos)
     else:
-        data = handle_get_weibos_request(uid, domain, page, stage)
+        data = handle_get_weibos_request(uid, domain, page, stage, keyword)
         if not data:
             return None
         json_data = json.loads(data)

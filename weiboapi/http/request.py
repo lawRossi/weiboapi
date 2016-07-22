@@ -184,12 +184,22 @@ def handle_follow_request(uid, nick):
 
 
 @install_handler
-def handle_get_weibos_request(uid, domain, page, stage=1):
+def handle_get_weibos_request(uid, domain, page, stage=1, keyword=None):
+    if keyword:
+        keyword = keyword.encode("utf-8")
+        keyword = request.quote(keyword)
+        keyword = request.quote(keyword)
     if stage == 1:
         url = para.get_weibo_url % (uid, page)
+        if keyword is not None:
+            url = url + "&is_search=1&key_word=%s" % keyword
         return url
     elif stage == 2:
         parameters = para.query_form
+        if keyword:
+            parameters['is_all'] = '1'
+            parameters['is_search'] = '1'
+            parameters['key_word'] = keyword
         parameters['domain'] = domain
         parameters['domain_op'] = domain
         parameters['pre_page'] = str(page)
