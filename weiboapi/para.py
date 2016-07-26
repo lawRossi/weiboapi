@@ -29,6 +29,8 @@ get_weibo_url = 'http://weibo.com/u/%s/home?wvr=6&page=%d&is_all=1'
 
 query_url = 'http://weibo.com/p/aj/v6/mblog/mbloglist'  # for quering weibo content
 
+query_home_url = 'http://weibo.com/aj/mblog/fsearch'
+
 newcard_url = 'http://weibo.com/aj/v6/user/newcard?ajwvr=6&id=%s' \
     + '&type=1&call_back=STK_%s'
 
@@ -51,6 +53,10 @@ home_url = 'http://weibo.com/u/%s/home'
 big_picture_url = 'http://ww3.sinaimg.cn/bmiddle/%s'
 
 follow_url = "http://weibo.com/aj/f/followed?ajwvr=6&__rnd=%s"
+
+add_like_url = "http://weibo.com/aj/v6/like/add?ajwvr=6"
+
+get_inbox_comment_url = "http://weibo.com/comment/inbox?topnav=1&wvr=6&f=1"
 
 servertime = None
 
@@ -121,6 +127,15 @@ query_form = {
 }  # used for requesting Weibo posts.
 
 
+query_home_form = {
+    'ajwvr': '6',
+    'pre_page': '1',
+    'page': '1',
+    'wvr': '5',
+    'pagebar': '',
+    '__rnd': ''
+}
+
 post_form = {
     "location": "v6_content_home",
     "appkey": "",
@@ -174,6 +189,20 @@ comment_form = {
 }  # used for posting a coment
 
 
+reply_comment_form = {
+    'act': 'reply',
+    'mid': '4000905839424545',
+    'cid': '',
+    'uid': '',
+    'forward': '0',
+    'isroot': '0',
+    'content': '',
+    'ouid': '',
+    'status_owner_user': '',
+    '_t': '0',
+    'location': 'v6_comment_inbox'
+}
+
 message_form = {
     "location": "msgdialog",
     "module": "msgissue",
@@ -199,4 +228,14 @@ follow_form = {
     "nogroup": "false",
     "fnick": "",
     "_t": "0"
+}
+
+add_like_form = {
+    "location": "v6_content_home",
+    "group_source": "group_all",
+    "rid": "",
+    "version": "mini",
+    "qid": "heart",
+    "mid": "",
+    "like_src": "1"
 }

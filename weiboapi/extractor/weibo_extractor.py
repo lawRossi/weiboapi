@@ -203,8 +203,9 @@ class DateSouceExtractor(FieldExtractor):
         weibo['date'] = util.timestamp_to_date(
             int(date.attrib.get('date')[:-3])
             )
-        source = new_div.xpath(r'.//a/text()')[1]
-        weibo['source'] = source
+        texts = new_div.xpath(r'.//a/text()')
+        if len(texts) > 1:
+            weibo['source'] = texts[1]
 
 
 class UrlExtractor(FieldExtractor):
@@ -263,3 +264,93 @@ class MediaInfoExtractor(FieldExtractor):
 
                 weibo['links'] = ls
                 weibo['link_text'] = link_texts
+
+
+class HomepageMidExtractor(FieldExtractor):
+    def extract(self, div, weibo, single=False):
+        weibo['mid'] = div.attrib.get('mid')
+        omid = div.attrib.get('omid')
+        if omid is not None:
+            weibo['is_repost'] = True
+            weibo['omid'] = omid
+        else:
+            weibo['is_repost'] = False
+
+        tbinfo = div.attrib['tbinfo']
+        index = tbinfo.find("ouid=")
+        weibo['uid'] = tbinfo[index+5:index+15]
+
+
+class HomepageDateSouceExtractor(FieldExtractor):
+    def extract(self, div, weibo, single=False):
+        """
+        Extracting date and source
+        """
+        new_div = div.xpath(r'.//div[@class="WB_from S_txt2"]')
+        if len(new_div) == 1:
+            new_div = new_div[0]
+        elif len(new_div) == 2:
+            if not single:
+                new_div = new_div[0]
+            else:
+                new_div = new_div[1]
+            weibo["is_repost"] = True
+        date = new_div.xpath(r'.//a[@node-type="feed_list_item_date"]')[0]
+        weibo['date'] = util.timestamp_to_date(
+            int(date.attrib.get('date')[:-3])
+            )
+        weibo["url"] = "http://weibo.com%s" % date.attrib["href"]
+        texts = new_div.xpath(r'.//a/text()')
+        if len(texts) > 1:
+            weibo['source'] = texts[1]
+
+
+class HomepageWeiboExtractor():
+    def __init__(self, weibo_class):
+        self.install_extractors(weibo_class)
+
+    def install_extractors(self, weibo_class):
+        """
+        """
+        self.extractors = []
+        self.extractors.append(ContentExtractor())
+        self.extractors.append(HomepageMidExtractor())
+        self.extractors.append(NumberInfoExtractor())
+        self.extractors.append(HomepageDateSouceExtractor())
+        self.extractors.append(MediaInfoExtractor())
+
+    def extract_weibos(self, doc, first=False, single=False, home=False):
+        """
+        Extracting weibos from the html document.
+        """
+        weibos = []
+        try:
+            if first:
+                doc = self.extract_content_html(doc)
+
+            html = etree.HTML(doc)
+            divs = html.xpath(r'//div[@action-type="feed_list_item"]')
+
+            for div in divs:
+                weibo = Weibo()
+                for extractor in self.extractors:
+                    try:
+                        extractor.extract(div, weibo, single)
+                    except:
+                        traceback.print_exc()
+                        continue
+                weibos.append(weibo)
+        except:
+            traceback.print_exc()
+        return weibos
+
+    def extract_content_html(self, html):
+        """
+        Extracting html code that contains weibo content.
+        """
+        scripts = util.extract_script(html)
+        script = util.select_script(
+            scripts, r'pl.content.homefeed.index'
+        )
+        text = script.text.strip()
+        return util.extract_html_from_script(text)

@@ -200,3 +200,16 @@ def extract_date_source(div, weibo):
         )
     source = new_div.xpath(r'.//a/text()')[1]
     weibo['source'] = source
+
+
+def extract_topic(doc):
+    scripts = util.extract_script(doc)
+    script = util.select_script(scripts, '"domid":"v6_pl_rightmod_recominfo"')
+    text = script.text.strip()
+    doc = util.extract_html_from_script(text)
+    html = etree.HTML(doc)
+    links = html.xpath('//ul[@class="hot_topic"]/li//a')
+    topics = []
+    for link in links:
+        topics.append((link.attrib["href"], link.text.strip()))
+    return topics

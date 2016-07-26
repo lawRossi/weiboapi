@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 @Author: Rossi
 2016-01-25
@@ -169,6 +170,37 @@ def handle_comment_request(mid, content):
 
 
 @install_handler
+def handle_reply_comment_request(mid, cid, ouid, nick, content):
+    para.reply_comment_form["mid"] = mid
+    para.reply_comment_form["cid"] = cid
+    para.reply_comment_form["uid"] = para.uid
+    para.reply_comment_form["status_owner_user"] = para.uid
+    para.reply_comment_form["ouid"] = ouid
+    para.reply_comment_form["content"] = "回复@%s:%s" % (nick, content)
+    data = urlencode(para.reply_comment_form)
+    url = para.post_comment_url % util.get_systemtime()
+    req = request.Request(
+        url=url,
+        data=bytearray(data, 'utf-8'),
+        headers=para.headers
+    )
+    return req
+
+
+@install_handler
+def handle_like_request(mid):
+    para.add_like_form['mid'] = mid
+    data = urlencode(para.add_like_form)
+    url = para.add_like_url
+    req = request.Request(
+        url=url,
+        data=bytearray(data, 'utf-8'),
+        headers=para.headers
+    )
+    return req
+
+
+@install_handler
 def handle_follow_request(uid, nick):
     para.follow_form["uid"] = uid
     para.follow_form["oid"] = uid
@@ -211,12 +243,11 @@ def handle_get_weibos_request(uid, domain, page, stage=1, keyword=None):
         parameters = para.query_form
         parameters['pagebar'] = '1'
 
-    url = construct_url(parameters)
+    url = construct_url(para.query_url, parameters)
     return url
 
 
-def construct_url(parameters):
-    url = para.query_url
+def construct_url(url, parameters):
     url += '?'
     for key in parameters.keys():
         url += (key + '=' + str(parameters[key]) + '&')
@@ -247,8 +278,30 @@ def handle_get_user_info_request(uid, domain):
 
 
 @install_handler
-def handle_homepage_request(uid):
-    url = para.home_url % uid
+def handle_homepage_request(uid, stage=1, keyword=None):
+    if keyword:
+        keyword = keyword.encode("utf-8")
+        keyword = request.quote(keyword)
+        keyword = request.quote(keyword)
+    if stage == 1:
+        url = para.home_url % uid
+        if keyword is not None:
+            url = url + "&is_search=1&key_word=%s" % keyword
+        return url
+    elif stage == 2:
+        parameters = para.query_home_form
+        if keyword:
+            parameters['is_all'] = '1'
+            parameters['is_search'] = '1'
+            parameters['key_word'] = keyword
+        parameters['pre_page'] = '1'
+        parameters['page'] = '1'
+        parameters['pagebar'] = '0'
+        parameters['__rnd'] = util.get_systemtime()
+    else:
+        parameters = para.query_form
+        parameters['pagebar'] = '1'
+    url = construct_url(para.query_home_url, parameters)
     return url
 
 
@@ -278,4 +331,10 @@ def handle_search_weibo_request(word, page=1, region=None,
         append = append.replace("None", "")
         url = url + append
 
+    return url
+
+
+@install_handler
+def handle_get_inbox_comment_request():
+    url = para.get_inbox_comment_url
     return url

@@ -11,8 +11,10 @@ import re
 import json
 import traceback
 from weiboapi.extractor.weibo_extractor import WeiboExtractor
+from weiboapi.extractor.weibo_extractor import HomepageWeiboExtractor
 from .weibo import Weibo
 from weiboapi.extractor.comment_extractor import CommentExtractor
+from weiboapi.extractor.comment_extractor import extract_inbox_comment
 from .comment import Comment
 from weiboapi.extractor.account_extractor import AccountExtractor
 from weiboapi.extractor.misc import *
@@ -20,7 +22,9 @@ from weiboapi.util.util import get_json
 from weiboapi.util.util import check_code
 from weiboapi.util.util import wrap_user_info
 
+
 weibo_extractor = WeiboExtractor(Weibo)
+homepage_weibo_extractor = HomepageWeiboExtractor(Weibo)
 comment_extractor = CommentExtractor(Comment)
 account_extractor = AccountExtractor()
 
@@ -120,6 +124,29 @@ def comment(mid, content):
     :param str content: the content of the comment.
     """
     data = handle_comment_request(mid, content)
+    if not data:
+        return False
+    return check_code(data)
+
+
+def reply_comment(mid, cid, ouid, nick, content):
+    data = handle_reply_comment_request(mid, cid, ouid, nick, content)
+    if not data:
+        return False
+    print data
+    return check_code(data)
+
+
+def get_inbox_comment():
+    data = handle_get_inbox_comment_request()
+    if not data:
+        return None
+    doc = util.check_html(data)
+    return extract_inbox_comment(doc)
+
+
+def like(mid):
+    data = handle_like_request(mid)
     if not data:
         return False
     return check_code(data)
@@ -248,6 +275,54 @@ def get_comments(mid, page):
     doc = data["html"]
     comments = comment_extractor.extract_comments(doc)
     return comments
+
+
+def get_home_page():
+    page = []
+    data = handle_homepage_request(para.uid, 1)
+    if not data:
+        return page
+    doc = util.check_html(data)
+    weibos = homepage_weibo_extractor.extract_weibos(doc, first=True)
+    weibos = check_weibos(weibos)
+    if weibos:
+        page.extend(weibos)
+    else:
+        return page
+
+    data = handle_homepage_request(para.uid, 2)
+    if not data:
+        return page
+    json_data = json.loads(data)
+    doc = json_data["data"]
+    weibos = homepage_weibo_extractor.extract_weibos(doc)
+    weibos = check_weibos(weibos)
+    if weibos:
+        page.extend(weibos)
+    else:
+        return page
+
+    data = handle_homepage_request(para.uid, 3)
+    if not data:
+        return page
+    json_data = json.loads(data)
+    doc = json_data["data"]
+    weibos = homepage_weibo_extractor.extract_weibos(doc)
+    weibos = check_weibos(weibos)
+    if weibos:
+        page.extend(weibos)
+    else:
+        return page
+    return page
+
+
+def get_homepage_topic():
+    data = handle_homepage_request(para.uid, 1)
+    if not data:
+        return []
+    doc = util.check_html(data)
+    topics = extract_topic(doc)
+    return topics
 
 
 def get_account(uid):

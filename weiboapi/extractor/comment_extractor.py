@@ -6,7 +6,8 @@
 from bs4 import BeautifulSoup
 from lxml import etree
 import traceback
-
+from weiboapi.util import util
+from weiboapi.api.comment import Comment
 
 # deal with py2 encoding problem
 import sys
@@ -105,3 +106,43 @@ class CommentExtractor():
         uid = img.attrib.get("usercard")[3:]
         nick = img.attrib.get("alt")
         return uid, nick
+
+
+def extract_inbox_comment(data):
+    comments = []
+    try:
+        scripts = util.extract_script(data)
+        script = util.select_script(
+                    scripts, r'"domid":"v6_pl_content_commentlist"'
+        )
+        print len(scripts)
+        text = script.text.strip()
+        doc = util.extract_html_from_script(text)
+        html = etree.HTML(doc)
+        divs = html.xpath('//div[@node-type="feed_commentList_comment"]')
+    except:
+        return comments
+
+    for div in divs:
+        try:
+            weibo_url, comment = extract_individual_comment(div)
+            comments.append((weibo_url, comment))
+        except:
+            pass
+    return comments
+
+
+def extract_individual_comment(div):
+    try:
+        comment = Comment()
+        comment["comment_id"] = div.attrib["comment_id"]
+        a = div.xpath('.//div[@class="WB_info S_txt2"]/a')[0]
+        comment["nick"] = a.text.strip()
+        usercard = a.attrib["usercard"]
+        comment["uid"] = usercard[len("id="):]
+        comment["content"] = div.xpath('.//div[@class="WB_text"]/text()')[0]
+        a = div.xpath('//a[@class="S_func1"]')[0]
+        weibo_url = "http://weibo.com%s" % a.attrib["href"]
+        return weibo_url, comment
+    except:
+        traceback.print_exc()

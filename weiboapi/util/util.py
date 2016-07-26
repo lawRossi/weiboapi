@@ -180,3 +180,13 @@ def wrap_user_info(info):
         for k, v in zip(keys, values):
             info_dict[k] = v.strip()
     return info_dict
+
+
+def check_html(doc):
+    i1 = doc.find("</html>")
+    i2 = doc.find("</html>", i1+1)
+    if i2 == -1:
+        return doc
+    else:
+        doc = doc.replace("</html>", "", 1)
+        return doc
