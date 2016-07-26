@@ -9,7 +9,8 @@ __all__ = [
     "get_weibo", "get_domain", "get_relation",
     "get_user_info", "Account", "Comment", "Weibo",
     "search_user", "search_weibo", "send_message",
-    "follow"
+    "follow", "get_homepage_topic", "get_homepage",
+    "reply_comment", "like", "get_inbox_comment"
 ]
 
 from weiboapi.api.api import login, get_account, post
@@ -19,6 +20,9 @@ from weiboapi.api.api import get_weibo, get_domain
 from weiboapi.api.api import get_relation, get_user_info
 from weiboapi.api.api import search_user, search_weibo
 from weiboapi.api.api import send_message, follow
+from weiboapi.api.api import get_homepage, reply_comment
+from weiboapi.api.api import get_inbox_comment, like
+from weiboapi.api.api import get_homepage_topic
 from weiboapi.api.account import Account
 from weiboapi.api.comment import Comment
 from weiboapi.api.weibo import Weibo

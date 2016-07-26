@@ -277,7 +277,7 @@ def get_comments(mid, page):
     return comments
 
 
-def get_home_page():
+def get_homepage():
     page = []
     data = handle_homepage_request(para.uid, 1)
     if not data:
