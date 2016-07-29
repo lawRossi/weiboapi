@@ -133,7 +133,6 @@ def reply_comment(mid, cid, ouid, nick, content):
     data = handle_reply_comment_request(mid, cid, ouid, nick, content)
     if not data:
         return False
-    print data
     return check_code(data)
 
 
@@ -143,6 +142,13 @@ def get_inbox_comment():
         return None
     doc = util.check_html(data)
     return extract_inbox_comment(doc)
+
+
+def get_inbox_count():
+    data = handle_get_inbox_count_request()
+    if not data:
+        return None
+    return extract_inbox_count(data)
 
 
 def like(mid):
@@ -344,6 +350,10 @@ def get_account(uid):
         return account
     except:
         return None
+
+
+def get_own_account():
+    return get_account(para.uid)
 
 
 def get_domain(uid):

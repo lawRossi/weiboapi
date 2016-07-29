@@ -58,6 +58,9 @@ add_like_url = "http://weibo.com/aj/v6/like/add?ajwvr=6"
 
 get_inbox_comment_url = "http://weibo.com/comment/inbox?topnav=1&wvr=6&f=1"
 
+get_inbox_count_url = ("http://rm.api.weibo.com/2/remind/push_count.json?"
+                       "with_common_cmt=1&msgbox=true&source=351354573")
+
 servertime = None
 
 uid = ''  # the id of the "login account".

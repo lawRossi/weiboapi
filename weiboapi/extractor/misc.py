@@ -213,3 +213,11 @@ def extract_topic(doc):
     for link in links:
         topics.append((link.attrib["href"], link.text.strip()))
     return topics
+
+
+def extract_inbox_count(data):
+    json_data = json.loads(data)
+    counts = {}
+    counts["comment_count"] = json_data["cmt"]
+    counts["message_count"] = json_data["msgbox"]
+    return counts

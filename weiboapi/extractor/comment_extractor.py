@@ -115,7 +115,6 @@ def extract_inbox_comment(data):
         script = util.select_script(
                     scripts, r'"domid":"v6_pl_content_commentlist"'
         )
-        print len(scripts)
         text = script.text.strip()
         doc = util.extract_html_from_script(text)
         html = etree.HTML(doc)

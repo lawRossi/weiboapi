@@ -338,3 +338,8 @@ def handle_search_weibo_request(word, page=1, region=None,
 def handle_get_inbox_comment_request():
     url = para.get_inbox_comment_url
     return url
+
+
+@install_handler
+def handle_get_inbox_count_request():
+    return para.get_inbox_count_url
