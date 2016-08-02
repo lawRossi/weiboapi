@@ -23,11 +23,12 @@ except:
 import traceback
 
 
-# Installing cookie jar.
-cj = LWPCookieJar()
-cookie_support = request.HTTPCookieProcessor(cj)
-opener = request.build_opener(cookie_support, request.HTTPHandler)
-request.install_opener(opener)
+def install_opener():
+    # Installing cookie jar.
+    cj = LWPCookieJar()
+    cookie_support = request.HTTPCookieProcessor(cj)
+    opener = request.build_opener(cookie_support, request.HTTPHandler)
+    request.install_opener(opener)
 
 
 def install_handler(func):
@@ -65,6 +66,7 @@ def handle_request(req):
 def handle_prelogin_request(username):
     """
     """
+    install_opener()
     username = util.quote_base64_encode(username)
     st = util.get_systemtime()
     url = para.prelogin_url % (username, st)

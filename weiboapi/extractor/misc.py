@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 """
 @Author: Rossi
 2016-01-28
@@ -51,11 +52,33 @@ def extract_user_info(doc):
             )
         html = util.extract_html_from_script(script.text.strip())
         html = etree.HTML(html)
+
         lis = html.xpath(r'//ul/li')
         info = []
         for li in lis:
             text = li.xpath("string()")
             info.append(util.clean_text(text))
+        level_info = extract_level_info(doc)
+        if level_info:
+            info.append(level_info)
+        return info
+    except:
+        traceback.print_exc()
+        return None
+
+
+def extract_level_info(doc):
+    try:
+        scripts = util.extract_script(doc)
+        script = util.select_script(
+            scripts, r'"domid":"Pl_Official_RightGrowNew'
+        )
+        html = util.extract_html_from_script(script.text.strip())
+        html = etree.HTML(html)
+        p = html.xpath(r'//p[@class="level_info"]')
+        if p:
+            text = p[0].xpath("string()")
+            info = util.clean_text(text)
         return info
     except:
         traceback.print_exc()
@@ -81,7 +104,7 @@ def extract_user(doc, page_num=None):
                     user["nick"] = _as[0].attrib.get("title")
                     user["home_url"] = _as[0].attrib.get("href")
                     if len(_as) > 1:
-                        if _as[1].attrib.get("alt") != None:
+                        if _as[1].attrib.get("alt") is not None:
                             user["verify"] = _as[1].attrib.get("alt")
 
                 users.append(user)
