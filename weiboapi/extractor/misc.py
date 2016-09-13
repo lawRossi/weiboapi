@@ -50,6 +50,10 @@ def extract_user_info(doc):
             script = util.select_script(
                 scripts, r'"domid":"Pl_Official_PersonalInfo__62"'
             )
+        if script is None:
+            script = util.select_script(
+                scripts, r'"domid":"Pl_Official_PersonalInfo__61"'
+            )
         html = util.extract_html_from_script(script.text.strip())
         html = etree.HTML(html)
 
@@ -244,3 +248,13 @@ def extract_inbox_count(data):
     counts["comment_count"] = json_data["cmt"]
     counts["message_count"] = json_data["msgbox"]
     return counts
+
+
+def extract_search_result_count(doc):
+    scripts = util.extract_script(doc)
+    script = util.select_script(scripts, r'"pid":"pl_weibo_direct"')
+    text = script.text.strip()
+    text = text.encode("utf-8", "ignore")
+    print text
+    p = re.compile("找到(\d+)条结果")
+    print p.search(text)
