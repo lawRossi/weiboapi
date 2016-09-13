@@ -308,13 +308,34 @@ def handle_homepage_request(uid, stage=1, keyword=None):
 
 
 @install_handler
-def handle_search_user_request(word, page=1):
-    word = word.encode("utf-8")
-    word = request.quote(word)
-    word = request.quote(word)
-    url = para.search_user_url % word
+def handle_search_user_request(word=None, page=1, tag=None, auth=None,
+                               region=None, gender=None, age=None):
+    url = para.search_user_url
+    if word:
+        if isinstance(word, unicode):
+            word = word.encode("utf-8")
+        word = request.quote(word)
+        word = request.quote(word)
+        url += word
+
+    appendix = ""
+    if tag:
+        if isinstance(tag, unicode):
+            tag = tag.encode("utf-8")
+        tag = request.quote(tag)
+        tag = request.quote(tag)
+        appendix += "&tag=%s" % tag
+    if auth:
+        appendix += "&auth=%s" % auth
+    if region:
+        appendix += "&region=%s" % region
+    if gender:
+        appendix += "&gender=%s" % gender
+    if age:
+        appendix += "&age=%s" % age
     if page > 1:
-        url = url + "?page=%d" % page
+        appendix += "&page=%d" % page
+    url += appendix
     return url
 
 

@@ -399,7 +399,8 @@ def get_user_info(uid, domain="100505"):
         return wrap_user_info(userinfo)
 
 
-def search_user(word, page=1, page_num=False):
+def search_user(word=None, page=1, page_num=False, tag=None, auth=None,
+                region=None, gender=None, age=None):
     """
     Searching with a word to get concerned accounts.
 
@@ -409,7 +410,8 @@ def search_user(word, page=1, page_num=False):
 
     :param bool page_num: specified whether the number of pages is returned
     """
-    data = handle_search_user_request(word, page)
+    data = handle_search_user_request(
+        word, page, tag, auth, region, gender, age)
     if not data:
         if page_num:
             return None, None
@@ -437,3 +439,11 @@ def search_weibo(word, page=1, page_num=False, region=None,
         return None
     else:
         return extract_searched_weibo(data, page_num)
+
+
+def search_count(word):
+    data = handle_search_weibo_request(word)
+    if not data:
+        return 0
+    else:
+        return extract_search_result_count(data)

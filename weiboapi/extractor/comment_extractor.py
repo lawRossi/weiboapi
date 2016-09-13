@@ -30,7 +30,7 @@ class CommentExtractor():
             try:
                 comment = self.comment_class()
                 comment["content"] = self.extract_comment_content(div)
-                comment["like_number"] = self.extract_like_number(div)
+                # comment["like_number"] = self.extract_like_number(div)
                 comment["date"] = self.extract_date(div)
                 comment["comment_id"] = self.extract_comment_id(div)
                 comment["uid"], comment["nick"] = self.extract_uid_nick(div)

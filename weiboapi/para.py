@@ -42,7 +42,7 @@ get_follower_url = 'http://weibo.com/%s/fans?rightmod=1&wvr=6&page=%d'
 
 get_user_info_url = 'http://weibo.com/p/%s%s/info'
 
-search_user_url = "http://s.weibo.com/user/%s"
+search_user_url = "http://s.weibo.com/user/"
 
 search_weibo_url = "http://s.weibo.com/weibo/%s"
 
