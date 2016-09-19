@@ -64,6 +64,10 @@ class WeiboExtractor():
             script = util.select_script(
                 scripts, r'"domid":"Pl_Official_MyProfileFeed'
             )
+            if not script:
+                script = util.select_script(
+                    scripts, r'"domid":"v6_pl_content_homefeed"'
+                )
         else:
             script = util.select_script(
                 scripts, r'pl.content.weiboDetail.index'

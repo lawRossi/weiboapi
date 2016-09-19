@@ -215,7 +215,8 @@ def request_weibos(uid, domain, page, stage, keyword):
         data = handle_get_weibos_request(uid, domain, page, keyword=keyword)
         if not data:
             return None
-        weibos = weibo_extractor.extract_weibos(data, True)
+        doc = util.check_html(data)
+        weibos = weibo_extractor.extract_weibos(doc, True)
         return check_weibos(weibos)
 
     elif stage == 2:
