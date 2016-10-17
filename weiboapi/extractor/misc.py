@@ -54,6 +54,10 @@ def extract_user_info(doc):
             script = util.select_script(
                 scripts, r'"domid":"Pl_Official_PersonalInfo__61"'
             )
+        if script is None:
+            script = util.select_script(
+                scripts, r'"domid":"Pl_Official_PersonalInfo__59"'
+            )
         html = util.extract_html_from_script(script.text.strip())
         html = etree.HTML(html)
 
