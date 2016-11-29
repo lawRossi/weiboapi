@@ -11,7 +11,8 @@ __all__ = [
     "search_user", "search_weibo", "send_message",
     "follow", "get_homepage_topic", "get_homepage",
     "reply_comment", "like", "get_inbox_comment",
-    "get_own_account", "get_inbox_count"
+    "get_own_account", "get_inbox_count", "get_hot_weibos",
+    "has_login"
 ]
 
 from weiboapi.api.api import login, get_account, post
@@ -24,7 +25,8 @@ from weiboapi.api.api import send_message, follow
 from weiboapi.api.api import get_homepage, reply_comment
 from weiboapi.api.api import get_inbox_comment, like
 from weiboapi.api.api import get_homepage_topic, get_own_account
-from weiboapi.api.api import get_inbox_count
+from weiboapi.api.api import get_inbox_count, get_hot_weibos
+from weiboapi.api.api import has_login
 from weiboapi.api.account import Account
 from weiboapi.api.comment import Comment
 from weiboapi.api.weibo import Weibo

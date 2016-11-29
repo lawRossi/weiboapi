@@ -177,6 +177,36 @@ def extract_searched_weibo(doc, page_num=None):
             return None
 
 
+def extract_hot_weibo(doc):
+    try:
+        scripts = util.extract_script(doc)
+        print len(scripts)
+        script = util.select_script(scripts, r'"domid":"v6_pl_content_newmixfeed"')
+        html = util.extract_html_from_script(script.text.strip())
+        html = etree.HTML(html)
+        divs = html.xpath('//div[@action-type="feed_list_item"]')
+        weibos = []
+        for div in divs:
+            try:
+                weibo = Weibo()
+                weibo["mid"] = div.attrib.get("mid")
+                _div = div.xpath('.//a[@class="W_texta W_fb"]')[0]
+                usercard = _div.attrib.get("usercard")
+                end = usercard.index("&")
+                weibo["uid"] = usercard[len("id="):end]
+                link = div.xpath('.//*[@class="feed_from W_textb"]/a')[0]
+                weibo["url"] = link.attrib.get("href")
+                extract_content(div, weibo)
+                extract_date_source(div, weibo)
+                weibos.append(weibo)
+            except:
+                traceback.print_exc()
+
+        return weibos
+    except:
+        traceback.print_exc()
+
+
 def extract_content(div, weibo):
     content = div.xpath(r'.//p[@node-type="feed_list_content"]')[0]
     root = BeautifulSoup(etree.tostring(content), "lxml")
@@ -252,13 +282,3 @@ def extract_inbox_count(data):
     counts["comment_count"] = json_data["cmt"]
     counts["message_count"] = json_data["msgbox"]
     return counts
-
-
-def extract_search_result_count(doc):
-    scripts = util.extract_script(doc)
-    script = util.select_script(scripts, r'"pid":"pl_weibo_direct"')
-    text = script.text.strip()
-    text = text.encode("utf-8", "ignore")
-    print text
-    p = re.compile("找到(\d+)条结果")
-    print p.search(text)

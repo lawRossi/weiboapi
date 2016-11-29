@@ -61,9 +61,15 @@ get_inbox_comment_url = "http://weibo.com/comment/inbox?topnav=1&wvr=6&f=1"
 get_inbox_count_url = ("http://rm.api.weibo.com/2/remind/push_count.json?"
                        "with_common_cmt=1&msgbox=true&source=351354573")
 
+get_hot_weibo_url = "http://weibo.com/feed/hot?leftnav=1&page_id="
+
+get_more_hot_weibo_url = "http://weibo.com/aj/hot/list"
+
 servertime = None
 
 uid = ''  # the id of the "login account".
+
+already_login = False
 
 request_body = {
     'entry': 'weibo',
@@ -128,6 +134,20 @@ query_form = {
     'domain_op': '',
     '__rnd': ''
 }  # used for requesting Weibo posts.
+
+
+query_hot_form = {
+    "ajwvr": "6",
+    "pre_page": 1,
+    "page": 1,
+    "leftnav": "1",
+    "page_id": "",
+    "pagebar": 1,
+    "tab": "home",
+    "min_id": "",
+    "current_page": 2,
+    "__rnd": ""
+}
 
 
 query_home_form = {
@@ -241,4 +261,53 @@ add_like_form = {
     "qid": "heart",
     "mid": "",
     "like_src": "1"
+}
+
+cat_page_id_dict = {
+    "视频": "102803_ctg1_1199_-_ctg1_1199",
+    "社会": "102803_ctg1_4188_-_ctg1_4188",
+    "国际": "102803_ctg1_6288_-_ctg1_6288",
+    "科技": "102803_ctg1_2088_-_ctg1_2088",
+    "科普": "102803_ctg1_5988_-_ctg1_5988",
+    "数码": "102803_ctg1_5088_-_ctg1_5088",
+    "财经": "102803_ctg1_6388_-_ctg1_6388",
+    "股市": "102803_ctg1_1288_-_ctg1_1288",
+    "明星": "102803_ctg1_4288_-_ctg1_4288",
+    "综艺": "102803_ctg1_4688_-_ctg1_4688",
+    "电视剧": "102803_ctg1_2488_-_ctg1_2488",
+    "电影": "102803_ctg1_3288_-_ctg1_3288",
+    "音乐": "102803_ctg1_5288_-_ctg1_5288",
+    "汽车": "102803_ctg1_5188_-_ctg1_5188",
+    "体育": "102803_ctg1_1388_-_ctg1_1388",
+    "运动健身": "102803_ctg1_4788_-_ctg1_4788",
+    "健康": "102803_ctg1_2188_-_ctg1_2188",
+    "瘦身": "102803_ctg1_6488_-_ctg1_6488",
+    "养生": "102803_ctg1_6588_-_ctg1_6588",
+    "军事": "102803_ctg1_6688_-_ctg1_6688",
+    "历史": "102803_ctg1_6788_-_ctg1_6788",
+    "美女模特": "102803_ctg1_2288_-_ctg1_2288",
+    "美图": "102803_ctg1_4988_-_ctg1_4988",
+    "情感": "102803_ctg1_1988_-_ctg1_1988",
+    "搞笑": "102803_ctg1_4388_-_ctg1_4388",
+    "辟谣": "102803_ctg1_6988_-_ctg1_6988",
+    "正能量": "102803_ctg1_7088_-_ctg1_7088",
+    "政务": "102803_ctg1_5788_-_ctg1_5788",
+    "游戏": "102803_ctg1_4888_-_ctg1_4888",
+    "旅游": "102803_ctg1_2588_-_ctg1_2588",
+    "育儿": "102803_ctg1_3188_-_ctg1_3188",
+    "校园": "102803_ctg1_1488_-_ctg1_1488",
+    "美食": "102803_ctg1_2688_-_ctg1_2688",
+    "房产": "102803_ctg1_5588_-_ctg1_5588",
+    "家居": "102803_ctg1_5888_-_ctg1_5888",
+    "星座": "102803_ctg1_1688_-_ctg1_1688",
+    "读书": "102803_ctg1_4588_-_ctg1_4588",
+    "三农": "102803_ctg1_7188_-_ctg1_7188",
+    "设计": "102803_ctg1_5388_-_ctg1_5388",
+    "艺术": "102803_ctg1_5488_-_ctg1_5488",
+    "时尚": "102803_ctg1_4488_-_ctg1_4488",
+    "美妆": "102803_ctg1_1588_-_ctg1_1588",
+    "动漫": "102803_ctg1_2388_-_ctg1_2388",
+    "宗教": "102803_ctg1_5688_-_ctg1_5688",
+    "萌宠": "102803_ctg1_2788_-_ctg1_2788",
+    "法律": "102803_ctg1_7388_-_ctg1_7388"
 }

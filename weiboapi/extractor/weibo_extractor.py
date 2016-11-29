@@ -30,14 +30,14 @@ class WeiboExtractor():
         self.extractors.append(UrlExtractor())
         self.extractors.append(MediaInfoExtractor())
 
-    def extract_weibos(self, doc, first=False, single=False):
+    def extract_weibos(self, doc, first=False, single=False, hot=False):
         """
         Extracting weibos from the html document.
         """
         weibos = []
         try:
             if first:
-                doc = self.extract_content_html(doc, single)
+                doc = self.extract_content_html(doc, single, hot)
 
             html = etree.HTML(doc)
             divs = html.xpath(r'//div[@action-type="feed_list_item"]')
@@ -55,12 +55,16 @@ class WeiboExtractor():
             traceback.print_exc()
         return weibos
 
-    def extract_content_html(self, html, single=False):
+    def extract_content_html(self, html, single=False, hot=False):
         """
         Extracting html code that contains weibo content.
         """
         scripts = util.extract_script(html)
-        if not single:
+        if hot:
+            script = util.select_script(
+                scripts, r'"domid":"v6_pl_content_newmixfeed"'
+            )
+        elif not single:
             script = util.select_script(
                 scripts, r'"domid":"Pl_Official_MyProfileFeed'
             )

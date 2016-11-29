@@ -85,12 +85,17 @@ def login(username, password):
         json_data = get_json(data)
         if(json_data['result']):
             para.uid = json_data['userinfo']['uniqueid']
+            para.already_login = True
             return True
         else:
             return False
     except:
         traceback.print_exc()
         return False
+
+
+def has_login():
+    return para.already_login
 
 
 def post(content):
@@ -448,3 +453,19 @@ def search_count(word):
         return 0
     else:
         return extract_search_result_count(data)
+
+
+def get_hot_weibos(category, page=1):
+    page_id = para.cat_page_id_dict[category]
+    data = handle_get_hot_weibo_request(page_id, page)
+    if not data:
+        return None
+    else:
+        doc = util.check_html(data)
+        if page == 1:
+            weibos = weibo_extractor.extract_weibos(doc, first=True, hot=True)
+        else:
+            json_data = json.loads(data)
+            doc = json_data['data']
+            weibos = weibo_extractor.extract_weibos(doc)
+        return weibos

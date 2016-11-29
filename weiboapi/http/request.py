@@ -366,3 +366,25 @@ def handle_get_inbox_comment_request():
 @install_handler
 def handle_get_inbox_count_request():
     return para.get_inbox_count_url
+
+
+#######################
+
+@install_handler
+def handle_get_hot_weibo_request(page_id, page):
+    if page == 1:
+        url = para.get_hot_weibo_url + page_id
+        return url
+    else:
+        url = para.get_more_hot_weibo_url
+        parameters = para.query_hot_form
+        cur_page = (page - 1) // 5 + 1
+        parameters["page"] = cur_page
+        parameters["pre_page"] = cur_page - 1 if cur_page - 1 > 1 else 1
+        parameters["page_id"] = page_id
+        parameters["current_page"] = page
+        page_bar = (page % 5) - 1
+        parameters["pagebar"] = page_bar if page_bar > -1 else 4
+        parameters['__rnd'] = util.get_systemtime()
+        url = construct_url(url, parameters)
+        return url
