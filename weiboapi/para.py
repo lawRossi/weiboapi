@@ -61,7 +61,8 @@ get_inbox_comment_url = "http://weibo.com/comment/inbox?topnav=1&wvr=6&f=1"
 get_inbox_count_url = ("http://rm.api.weibo.com/2/remind/push_count.json?"
                        "with_common_cmt=1&msgbox=true&source=351354573")
 
-get_hot_weibo_url = "http://weibo.com/feed/hot?leftnav=1&page_id="
+# get_hot_weibo_url = "http://weibo.com/feed/hot?leftnav=1&page_id="
+get_hot_weibo_url = "http://d.weibo.com/"
 
 get_more_hot_weibo_url = "http://weibo.com/aj/hot/list"
 

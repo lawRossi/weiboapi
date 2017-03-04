@@ -181,7 +181,7 @@ def extract_hot_weibo(doc):
     try:
         scripts = util.extract_script(doc)
         print len(scripts)
-        script = util.select_script(scripts, r'"domid":"v6_pl_content_newmixfeed"')
+        script = util.select_script(scripts, r'"domid":"Pl_Core_NewMixFeed__3"')
         html = util.extract_html_from_script(script.text.strip())
         html = etree.HTML(html)
         divs = html.xpath('//div[@action-type="feed_list_item"]')

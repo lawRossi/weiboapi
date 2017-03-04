@@ -62,7 +62,7 @@ class WeiboExtractor():
         scripts = util.extract_script(html)
         if hot:
             script = util.select_script(
-                scripts, r'"domid":"v6_pl_content_newmixfeed"'
+                scripts, r'"domid":"Pl_Core_NewMixFeed__3"'
             )
         elif not single:
             script = util.select_script(
