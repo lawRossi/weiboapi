@@ -41,7 +41,6 @@ class WeiboExtractor():
 
             html = etree.HTML(doc)
             divs = html.xpath(r'//div[@action-type="feed_list_item"]')
-
             for div in divs:
                 weibo = Weibo()
                 for extractor in self.extractors:
@@ -232,9 +231,9 @@ class UrlExtractor(FieldExtractor):
                 if len(root_url) == 1:
                     weibo["root_url"] = root_url[0]
 
-        url = re.findall("&url=([a-zA-Z0-9/:.]*)", action_data)
-        if len(url) == 1:
-            weibo["url"] = url[0]
+            url = re.findall("&url=([a-zA-Z0-9/:.]*)", action_data)
+            if len(url) == 1:
+                weibo["url"] = url[0]
 
 
 class MediaInfoExtractor(FieldExtractor):

@@ -7,12 +7,8 @@ This module contains all useful Sina Weibo api functions.
 """
 from weiboapi.http.request import *
 from weiboapi import para
-import re
-import json
-import traceback
 from weiboapi.extractor.weibo_extractor import WeiboExtractor
 from weiboapi.extractor.weibo_extractor import HomepageWeiboExtractor
-from .weibo import Weibo
 from weiboapi.extractor.comment_extractor import CommentExtractor
 from weiboapi.extractor.comment_extractor import extract_inbox_comment
 from .comment import Comment
@@ -191,7 +187,11 @@ def get_weibos(uid, domain=None, page=1, keyword=None):
     :return: a list of :class:`~weiboapi.api.weibo.Weibo` instances
     """
     if not domain:
-        domain = get_domain(uid)
+        if uid:
+            domain = get_domain(uid)
+        else:
+            domain = get_own_domain()
+    print domain
 
     weibos = []
     new_weibos = request_weibos(uid, domain, page, 1, keyword)
@@ -367,6 +367,13 @@ def get_domain(uid):
     Retriving the domain of an account.
     """
     data = handle_homepage_request(uid)
+    if not data:
+        return None
+    return extract_domain(data)
+
+
+def get_own_domain():
+    data = handle_get_own_weibos_request(1)
     if not data:
         return None
     return extract_domain(data)

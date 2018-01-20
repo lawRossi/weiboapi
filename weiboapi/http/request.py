@@ -224,7 +224,11 @@ def handle_get_weibos_request(uid, domain, page, stage=1, keyword=None):
         keyword = request.quote(keyword)
         keyword = request.quote(keyword)
     if stage == 1:
-        url = para.get_weibo_url % (uid, page)
+        if uid:
+            url = para.get_weibo_url % (uid, page)
+        else:
+            url = para.get_own_weibo_url % (para.uid, page)
+
         if keyword is not None:
             url = url + "&is_search=1&key_word=%s" % keyword
         return url
@@ -239,7 +243,10 @@ def handle_get_weibos_request(uid, domain, page, stage=1, keyword=None):
         parameters['pre_page'] = str(page)
         parameters['page'] = str(page)
         parameters['pagebar'] = '0'
-        parameters['id'] = domain + uid
+        if uid:
+            parameters['id'] = domain + uid
+        else:
+            parameters['id'] = domain + para.uid
         parameters['__rnd'] = util.get_systemtime()
     else:
         parameters = para.query_form
@@ -346,13 +353,13 @@ def handle_search_weibo_request(word, page=1, region=None,
     word = request.quote(word)
     word = request.quote(word)
     url = para.search_weibo_url % word
-    url = url + "?page=%d&typeall=1&suball=1" % page
+    url += "?page=%d&typeall=1&suball=1" % page
     if region:
-        url = url + ("&region=%s" % region)
+        url += ("&region=%s" % region)
     if start_date is not None or end_date is not None:
         append = "&timescope=custom:%s:%s" % (start_date, end_date)
         append = append.replace("None", "")
-        url = url + append
+        url += append
 
     return url
 
@@ -388,3 +395,9 @@ def handle_get_hot_weibo_request(page_id, page):
         parameters['__rnd'] = util.get_systemtime()
         url = construct_url(url, parameters)
         return url
+
+
+@install_handler
+def handle_get_own_weibos_request(page):
+    url = para.get_own_weibo_url % (para.uid, page)
+    return url
