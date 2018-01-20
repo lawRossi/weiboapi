@@ -31,9 +31,9 @@ account_extractor = AccountExtractor()
 
 def extract_url(data):
     start_pos = data.find('location.replace')
-    end_pos = data.find('\');})')
+    end_pos = data.find('\');})', start_pos)
     s = data[start_pos:end_pos]
-    start_pos = s.find('http:')
+    start_pos = s.find('https:')
     url = s[start_pos:]
     return url
 
