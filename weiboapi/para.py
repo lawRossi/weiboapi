@@ -71,6 +71,7 @@ get_more_hot_weibo_url = "http://weibo.com/aj/hot/list"
 servertime = None
 
 uid = ''  # the id of the "login account".
+domain = None
 
 already_login = False
 

@@ -189,9 +189,10 @@ def get_weibos(uid, domain=None, page=1, keyword=None):
     if not domain:
         if uid:
             domain = get_domain(uid)
+        elif para.domain:
+            domain = para.domain
         else:
             domain = get_own_domain()
-    print domain
 
     weibos = []
     new_weibos = request_weibos(uid, domain, page, 1, keyword)
